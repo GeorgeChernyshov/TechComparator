@@ -2,43 +2,98 @@ import os
 from openai import OpenAI
 import sqlite3
 import json
-import requests
-from bs4 import BeautifulSoup
-import urllib.parse
+import wikipedia
+from requests.exceptions import JSONDecodeError
 
 DB_FILE = "tech_knowledge.db"
+SYSTEM_PROMPT = """You are an autonomous AI Agent specializing in structured, hard-fact technology research.
+
+YOUR CORE GOAL:
+Extract exact, verified technical facts from the web and normalize them into a SINGLE UNIFIED DATA CONTRACT. 
+You are strictly FORBIDDEN from using your pre-trained internal knowledge. Always run the 'web_search' tool to verify current facts.
+
+DATA CONTRACT RULES:
+When you compile data about a device, you must internally form a valid JSON object matching this structure:
+{
+  "main_name": "string (the general name of the product, e.g., PlayStation 3)",
+  "brand": "string (the company, e.g., Sony)",
+  "category": "string (vague classifier, e.g., 'console', 'laptop', 'phone', 'tablet')",
+  "variants": [
+    {
+      "variant_name": "string (Use ONLY standard tech naming: 'Base', 'Slim', 'Pro', or specific hardware configs like '8GB/256GB')",
+      "release_year": 2026,
+      "launch_price": 0.00,
+      "specs": {
+        "speed_unit": "string (Common speed unit that will be used for all clock speeds of this device, including cpu clock speed, gpu clock speed, ram speed etc. Examples are 'MHz', 'GHz' etc)",
+        "memory_unit": "string (Single unit that will be used for all memory fields, aka ram, audio memory, video memory etc. Examples - 'GB', 'MB', 'KB' etc)",
+        "cpus": [
+            {
+                "cores": 8,         // int (the amount of cores. If there are several processors with the same architecture, you may represent them as a singe two-core processor)
+                "speed": 3.2,       // float (CPU clock speed)
+            }
+        ],                          // there can be several different processor architectures in a single device.
+        "gpu": {
+            "cores": 8,             // int (the amount of cores)
+            "speed": 5.5,           // float (GPU clock speed)
+            "memory": null          // float (dedicated GPU memory if present)
+        },
+        "ram": 8,                   // float (Common system RAM)
+        "ram_speed": 5.5,           // float (RAM speed)
+        "audio_memory": null,       // float (Audio memory if device has dedicated audio memory)
+        "video_memory": null,       // float (Video memory for devices that have no video card)
+        "storage_gb": null,         // float (Total built-in storage/HDD/SSD capacity)
+        "storage_speed": null       // float (Speed of built-in storage)
+      }
+    }
+  ]
+}
+
+UNIFIED SCHEMA FILLING RULES:
+1. Every field in the "specs" object is OPTIONAL. If a specific metric does not apply to the device (e.g., battery_mah for a desktop console) or cannot 
+be found after searching, leave it as null.
+2. Ensure values are strictly numbers (integers or floats). Do NOT write text like "8 cores" or "3.2 GHz" into the values. Extract raw digits only.
+
+RESPONSE FORMAT PROTOCOL:
+1. In your final turn response to the user, you must first print the special boundary token ===DATA_START===.
+2. Immediately follow it with a valid JSON array containing objects matching the unified contract above for all investigated devices.
+3. Close the data block with ===DATA_END===.
+4. Only AFTER the data boundary is closed can you write your human-readable analysis.
+5. CRITICAL HUMAN TEXT RULE: Your human-readable analysis MUST directly use and reference the hard numbers (RAM, clock speeds, prices) extracted in the JSON block. State the exact hardware delta (e.g., 'PS3 increased RAM by X amount and added Y CPU cores compared to PS2').
+
+WEB SEARCH SEARCH RULES:
+1. Your search queries MUST be short and precise (maximum 4-5 words). 
+2. NEVER combine multiple devices into one search query (e.g., DO NOT search for 'ps2 and ps3 specs and prices').
+3. If you need to research two devices, use multiple steps: search for the first device on Step 1, analyze the result, then search for the second device on Step 2.
+"""
+
+last_response_id = None
 
 client = OpenAI()
-messages = [
-    {"role": "system", "content": "You are a helpful AI assistant."}
-]
 
 tools = [
     {
         "type": "function",
-        "function": {
-            "name": "web_search",
-            "description": (
-                "Runs web search through DuckDuckGo. "
-                "Use this tool if you don't have precise data in the context window, "
-                "you need to find actual prices of tech, find precise specifications, "
-                "new model releases or compare gadgets that are not in the local database."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": (
-                            "Search request in english. "
-                            "Make it precise, like: 'iPhone 2G launch price 2007' "
-                            "or 'PlayStation 3 Slim features memory'."
-                        )
-                    }
-                },
-                "required": ["query"],
-                "additionalProperties": False
-            }
+        "name": "web_search",
+        "description": (
+            "Runs web search through DuckDuckGo. "
+            "Use this tool if you don't have precise data in the context window, "
+            "you need to find actual prices of tech, find precise specifications, "
+            "new model releases or compare gadgets that are not in the local database."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": (
+                        "Search request in english. "
+                        "Make it precise, like: 'iPhone 2G launch price 2007' "
+                        "or 'PlayStation 3 Slim features memory'."
+                    )
+                }
+            },
+            "required": ["query"],
+            "additionalProperties": False
         }
     }
 ]
@@ -74,63 +129,85 @@ def init_agent_database():
     conn.close()
     print("[Log] SQLite database sucessfully initialized.")
 
-def web_search(query: str, max_results: int = 4) -> str:
-    print(f"[Tool] Running web search for: '{query}'")
-    
-    url = f"https://duckduckgo.com{urllib.parse.quote(query)}"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-    
+def web_search(query: str, limit: int = 4) -> str:
+    lines = []
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        if response.status_code != 200:
-            return f"Error: response code {response.status_code}"
-            
-        soup = BeautifulSoup(response.text, "html.parser")
-        results = []
-        
-        links = soup.find_all("div", class_="result__body")
-        
-        for link in links[:max_results]:
-            title_element = link.find("a", class_="result__url")
-            snippet_element = link.find("a", class_="result__snippet")
-            
-            if title_element and snippet_element:
-                title = title_element.text.strip()
-                raw_href = title_element["href"]
-                parsed_url = urllib.parse.parse_qs(urllib.parse.urlparse(raw_href).query)
-                clean_url = parsed_url.get("uddg", [raw_href])[0]
-                
-                snippet = snippet_element.text.strip()
-                
-                results.append(f"Title: {title}\nUrl: {clean_url}\nDescription: {snippet}\n---")
-                
-        if not results:
-            return "No results. Try changing the request wording."
-            
-        return "\n\n".join(results)
-        
-    except Exception as e:
-        return f"Error while running web search: {str(e)}"
+        for index, title in enumerate(wikipedia.search(query, results=limit), start=1):
+            page = wikipedia.page(title, auto_suggest=False)
+            lines.append(f"{index}. {page.title}")
+            lines.append(f"   {page.url}")
+            lines.append(f"   {page.summary.splitlines()[0]}")
+    except JSONDecodeError:
+        return "Web search failed: Wikipedia returned a non-JSON response."
+
+    return "\n".join(lines) if lines else "No results."
 
 def run_assistant(user_input):
-    messages.append({"role": "user", "content": user_input})
+    global last_response_id
+    pending_input = user_input
+    previous_id = last_response_id
+    max_steps = 6
+    step = 0
 
-    response = client.chat.completions.create(
-        model="gpt-5.4-mini",
-        messages=messages,
-        tools=tools,
-        parallel_tool_calls=False
-    )
+    while step < max_steps:
+        step += 1
+        request = {
+            "model": "gpt-5.6-terra",
+            "instructions": SYSTEM_PROMPT,
+            "input": pending_input,
+            "tools": tools,
+            "parallel_tool_calls": False,
+            "reasoning": {"effort": "medium"},
+        }
 
-    ai_response = response.choices[0].message.content
-    messages.append({"role": "assistant", "content": ai_response})
-    print(f"\nAssistant: {ai_response}")
+        if previous_id is not None:
+            request["previous_response_id"] = previous_id
+
+        response = client.responses.create(**request)
+
+        function_calls = [
+            item
+            for item in response.output
+            if item.type == "function_call"
+        ]
+
+        if function_calls:
+            tool_outputs = []
+
+            for tool_call in function_calls:
+                tool_name = tool_call.name
+                tool_args = json.loads(tool_call.arguments)
+
+                print(f"[Log] Calling tool '{tool_name}' with arguments: {tool_args}")
+                
+                if tool_name == "web_search":
+                    observation = web_search(query=tool_args["query"])
+                else:
+                    observation = f"Error: tool {tool_name} not found"
+
+                tool_outputs.append(
+                    {
+                        "type": "function_call_output",
+                        "call_id": tool_call.call_id,
+                        "output": observation,
+                    }
+                )
+
+            previous_id = response.id
+            pending_input = tool_outputs
+
+        elif response.output_text:
+            last_response_id = response.id
+            print("[Debug] Data collection done. Returning final response.")
+            
+            # clean_human_response = extract_and_save_data_hook(ai_response.content)
+            print(response.output_text)
+            return response.output_text
+
+    return "[Error] Agent went over the step limit and could not complete a task."
 
 def main_loop():
-    print("--- Assiatant started. Write 'exit' to quit. ---\n")
+    print("--- Assistant started. Write 'exit' to quit. ---\n")
 
     while True:
         user_input = input("Input: ").strip()
@@ -149,8 +226,6 @@ def main_loop():
 
         except Exception as e:
             print(f"\n[Error]: {e}\n")
-            if messages and messages[-1]["role"] == "user":
-                messages.pop()
 
 if __name__ == "__main__":
     if not os.environ.get("OPENAI_API_KEY"):
