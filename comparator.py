@@ -85,7 +85,7 @@ def run_assistant(user_input):
 
     pending_input = user_input
     previous_id = last_response_id
-    max_steps = 6
+    max_steps = 10
     step = 0
 
     while step < max_steps:
