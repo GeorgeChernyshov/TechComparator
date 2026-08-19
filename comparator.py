@@ -2,10 +2,17 @@ import os
 import sqlite3
 import json
 import wikipedia
+from dataclasses import asdict
 from requests.exceptions import JSONDecodeError
 from pathlib import Path
 from openai import OpenAI
-from src.database import init_agent_database, save_research_results
+from src.database import (
+    find_product as find_product_in_database,
+    find_product_id,
+    init_agent_database,
+    save_research_results,
+)
+
 from src.product import Product
 
 DB_FILE = "tech_knowledge.db"
@@ -19,6 +26,27 @@ last_response_id = None
 client: OpenAI | None = None
 
 tools = [
+    {
+        "type": "function",
+        "name": "find_product",
+        "description": (
+            "Looks up one product in the local database by its general name. "
+            "Use this before web_search. If it returns a product, use its "
+            "stored variants and specifications; if it reports no match, "
+            "research that product on the web."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product_name": {
+                    "type": "string",
+                    "description": "One product name, such as 'PlayStation 3'.",
+                }
+            },
+            "required": ["product_name"],
+            "additionalProperties": False,
+        },
+    },
     {
         "type": "function",
         "name": "web_search",
@@ -43,7 +71,73 @@ tools = [
             "required": ["query"],
             "additionalProperties": False
         }
-    }
+    },
+    {
+        "type": "function",
+        "name": "save_product",
+        "description": (
+            "Validate and save one newly researched product to the local "
+            "database. Call this after researching a product that was not "
+            "found by find_product."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "type": "object",
+                    "properties": {
+                        "main_name": {"type": "string"},
+                        "brand": {"type": "string"},
+                        "category": {"type": "string"},
+                        "variants": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "variant_name": {"type": "string"},
+                                    "release_year": {"type": "integer"},
+                                    "launch_price": {"type": "number"},
+                                    "specs": {
+                                        "type": "object",
+                                        "properties": {
+                                            "speed_unit": {"type": ["string", "null"]},
+                                            "memory_unit": {"type": ["string", "null"]},
+                                            "cpus": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "cores": {"type": ["integer", "null"]},
+                                                        "speed": {"type": ["number", "null"]},
+                                                    },
+                                                },
+                                            },
+                                            "gpu": {
+                                                "type": ["object", "null"],
+                                                "properties": {
+                                                    "cores": {"type": ["integer", "null"]},
+                                                    "speed": {"type": ["number", "null"]},
+                                                    "memory": {"type": ["number", "null"]},
+                                                },
+                                            },
+                                            "ram": {"type": ["number", "null"]},
+                                            "ram_speed": {"type": ["number", "null"]},
+                                            "audio_memory": {"type": ["number", "null"]},
+                                            "video_memory": {"type": ["number", "null"]},
+                                            "storage_gb": {"type": ["number", "null"]},
+                                            "storage_speed": {"type": ["number", "null"]},
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            "required": ["product"],
+            "additionalProperties": False,
+        },
+    },
 ]
 
 def web_search(query: str, limit: int = 4) -> str:
@@ -59,6 +153,38 @@ def web_search(query: str, limit: int = 4) -> str:
 
     return "\n".join(lines) if lines else "No results."
 
+def find_product(product_name: str) -> str:
+    """Expose a database lookup result to the model as JSON."""
+    product = find_product_in_database(product_name, DB_FILE)
+    product_id = find_product_id(product_name, DB_FILE) if product else None
+    return json.dumps(
+        {
+            "found": product is not None,
+            "product_id": product_id,
+            "product": asdict(product) if product else None,
+        },
+        ensure_ascii=False,
+    )
+
+
+def save_product(product_data: dict) -> str:
+    """Validate and persist one product supplied by the model."""
+    product = Product.from_dict(product_data)
+    counts = save_research_results([product], DB_FILE)
+    product_id = find_product_id(product.main_name, DB_FILE)
+
+    if product_id is None:
+        raise RuntimeError("Product was saved but could not be read back.")
+
+    return json.dumps(
+        {
+            "saved": True,
+            "product_id": product_id,
+            "product_name": product.main_name,
+            "counts": counts,
+        },
+        ensure_ascii=False,
+    )
 
 def parse_products_response(response_text: str) -> list[Product]:
     start = response_text.find(DATA_START)
@@ -119,10 +245,21 @@ def run_assistant(user_input):
 
                 print(f"[Log] Calling tool '{tool_name}' with arguments: {tool_args}")
                 
-                if tool_name == "web_search":
-                    observation = web_search(query=tool_args["query"])
-                else:
-                    observation = f"Error: tool {tool_name} not found"
+                try:
+                    if tool_name == "find_product":
+                        observation = find_product(
+                            product_name=tool_args["product_name"],
+                        )
+                    elif tool_name == "web_search":
+                        observation = web_search(query=tool_args["query"])
+                    elif tool_name == "save_product":
+                        observation = save_product(
+                            product_data=tool_args["product"],
+                        )
+                    else:
+                        observation = f"Error: tool {tool_name} not found"
+                except (ValueError, KeyError, TypeError, RuntimeError, sqlite3.Error) as error:
+                    observation = f"Tool '{tool_name}' failed: {error}"
 
                 tool_outputs.append(
                     {
@@ -139,17 +276,9 @@ def run_assistant(user_input):
             last_response_id = response.id
 
             try:
-                products = parse_products_response(response.output_text)
-                counts = save_research_results(products, DB_FILE)
-                print(
-                    "[Log] Database saved: "
-                    f"{counts['products_inserted']} products inserted, "
-                    f"{counts['products_updated']} products updated, "
-                    f"{counts['variants_inserted']} variants inserted, "
-                    f"{counts['variants_updated']} variants updated."
-                )
-            except (ValueError, sqlite3.Error) as error:
-                print(f"[Error] Result was not saved: {error}")
+                parse_products_response(response.output_text)
+            except ValueError as error:
+                print(f"[Error] Final result failed validation: {error}")
 
             print("[Debug] Data collection done. Returning final response.")
             print(response.output_text)

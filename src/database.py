@@ -1,7 +1,130 @@
 import sqlite3
 
-from src.product import Product
+from src.product import (
+    CpuSpec,
+    GpuSpec,
+    Product,
+    ProductSpecs,
+    ProductVariant,
+)
 
+def find_product(product_name: str, db_file: str) -> Product | None:
+    """Return a stored product as a validated Product object."""
+    conn = sqlite3.connect(db_file)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON;")
+
+    try:
+        product_row = conn.execute(
+            """
+            SELECT id, main_name, brand, category
+            FROM tech_products
+            WHERE main_name = ? COLLATE NOCASE
+            """,
+            (product_name.strip(),),
+        ).fetchone()
+
+        if product_row is None:
+            return None
+
+        variants: list[ProductVariant] = []
+
+        variant_rows = conn.execute(
+            """
+            SELECT
+                id,
+                variant_name,
+                release_year,
+                launch_price,
+                speed_unit,
+                memory_unit,
+                gpu_cores,
+                gpu_speed,
+                gpu_memory,
+                ram,
+                ram_speed,
+                audio_memory,
+                video_memory,
+                storage_gb,
+                storage_speed
+            FROM tech_variants
+            WHERE product_id = ?
+            ORDER BY id
+            """,
+            (product_row["id"],),
+        ).fetchall()
+
+        for variant_row in variant_rows:
+            cpu_rows = conn.execute(
+                """
+                SELECT cores, speed
+                FROM tech_variant_cpus
+                WHERE variant_id = ?
+                ORDER BY position
+                """,
+                (variant_row["id"],),
+            ).fetchall()
+
+            gpu = (
+                GpuSpec(
+                    cores=variant_row["gpu_cores"],
+                    speed=variant_row["gpu_speed"],
+                    memory=variant_row["gpu_memory"],
+                )
+                if any(
+                    variant_row[field] is not None
+                    for field in ("gpu_cores", "gpu_speed", "gpu_memory")
+                )
+                else None
+            )
+
+            variants.append(
+                ProductVariant(
+                    variant_name=variant_row["variant_name"],
+                    release_year=variant_row["release_year"],
+                    launch_price=variant_row["launch_price"],
+                    specs=ProductSpecs(
+                        speed_unit=variant_row["speed_unit"],
+                        memory_unit=variant_row["memory_unit"],
+                        cpus=[
+                            CpuSpec(cores=row["cores"], speed=row["speed"])
+                            for row in cpu_rows
+                        ],
+                        gpu=gpu,
+                        ram=variant_row["ram"],
+                        ram_speed=variant_row["ram_speed"],
+                        audio_memory=variant_row["audio_memory"],
+                        video_memory=variant_row["video_memory"],
+                        storage_gb=variant_row["storage_gb"],
+                        storage_speed=variant_row["storage_speed"],
+                    ),
+                )
+            )
+
+        return Product(
+            main_name=product_row["main_name"],
+            brand=product_row["brand"],
+            category=product_row["category"],
+            variants=variants,
+        )
+    finally:
+        conn.close()
+
+def find_product_id(product_name: str, db_file: str) -> int | None:
+    """Return the database ID for a product, if it exists."""
+    conn = sqlite3.connect(db_file)
+    try:
+        row = conn.execute(
+            """
+            SELECT id
+            FROM tech_products
+            WHERE main_name = ? COLLATE NOCASE
+            """,
+            (product_name.strip(),),
+        ).fetchone()
+        return row[0] if row is not None else None
+    finally:
+        conn.close()
 
 def init_agent_database(db_file: str) -> None:
     conn = sqlite3.connect(db_file)
