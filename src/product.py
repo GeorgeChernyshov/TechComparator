@@ -6,18 +6,22 @@ from typing import Any
 class CpuSpec:
     cores: int | None
     speed: float | None
+    ops_per_cycle: float | None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> CpuSpec:
         return cls(
             cores=data.get("cores"),
             speed=data.get("speed"),
+            ops_per_cycle=data.get("ops_per_cycle"),
         )
 
 @dataclass(slots=True)
 class GpuSpec:
     cores: int | None
     speed: float | None
+    ops_per_cycle: float | None
+    memory_bandwidth: float | None
     memory: float | None
 
     @classmethod
@@ -25,6 +29,8 @@ class GpuSpec:
         return cls(
             cores=data.get("cores"),
             speed=data.get("speed"),
+            ops_per_cycle=data.get("ops_per_cycle"),
+            memory_bandwidth=data.get("memory_bandwidth"),
             memory=data.get("memory"),
         )
 
@@ -36,7 +42,7 @@ class ProductSpecs:
     cpus: list[CpuSpec]
     gpu: GpuSpec | None
     ram: float | None
-    ram_speed: float | None
+    ram_bandwidth: float | None
     audio_memory: float | None
     video_memory: float | None
     storage_gb: float | None
@@ -62,7 +68,7 @@ class ProductSpecs:
             ],
             gpu=GpuSpec.from_dict(gpu_data) if gpu_data is not None else None,
             ram=data.get("ram"),
-            ram_speed=data.get("ram_speed"),
+            ram_bandwidth=data.get("ram_bandwidth"),
             audio_memory=data.get("audio_memory"),
             video_memory=data.get("video_memory"),
             storage_gb=data.get("storage_gb"),

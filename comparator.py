@@ -13,7 +13,8 @@ from src.database import (
     save_research_results,
 )
 
-from src.product import Product
+from src.product import Product, ProductVariant
+from src.comparison import compare_products as calculate_comparison
 
 DB_FILE = "tech_knowledge.db"
 DATA_START = "===DATA_START==="
@@ -109,6 +110,7 @@ tools = [
                                                     "properties": {
                                                         "cores": {"type": ["integer", "null"]},
                                                         "speed": {"type": ["number", "null"]},
+                                                        "ops_per_cycle": {"type": ["number", "null"]},
                                                     },
                                                 },
                                             },
@@ -117,11 +119,13 @@ tools = [
                                                 "properties": {
                                                     "cores": {"type": ["integer", "null"]},
                                                     "speed": {"type": ["number", "null"]},
+                                                    "ops_per_cycle": {"type": ["number", "null"]},
+                                                    "memory_bandwidth": {"type": ["number", "null"]},
                                                     "memory": {"type": ["number", "null"]},
                                                 },
                                             },
                                             "ram": {"type": ["number", "null"]},
-                                            "ram_speed": {"type": ["number", "null"]},
+                                            "ram_bandwidth": {"type": ["number", "null"]},
                                             "audio_memory": {"type": ["number", "null"]},
                                             "video_memory": {"type": ["number", "null"]},
                                             "storage_gb": {"type": ["number", "null"]},
@@ -135,6 +139,31 @@ tools = [
                 },
             },
             "required": ["product"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "type": "function",
+        "name": "compare_products",
+        "description": (
+            "Calculate the raw directional comparison score A/B for two "
+            "selected variants. The score is the product "
+            "of all numeric technical-specification ratios. Missing or zero "
+            "values contribute 1. Do not normalize this result."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "variant_a": {
+                    "type": "object",
+                    "description": "The selected numerator variant from product A.",
+                },
+                "variant_b": {
+                    "type": "object",
+                    "description": "The selected denominator variant from product B.",
+                },
+            },
+            "required": ["variant_a", "variant_b"],
             "additionalProperties": False,
         },
     },
@@ -186,6 +215,18 @@ def save_product(product_data: dict) -> str:
         ensure_ascii=False,
     )
 
+
+def compare_products(
+    variant_a_data: dict,
+    variant_b_data: dict,
+) -> str:
+    """Calculate and return one raw A/B comparison score."""
+    score = calculate_comparison(
+        ProductVariant.from_dict(variant_a_data),
+        ProductVariant.from_dict(variant_b_data),
+    )
+    return json.dumps({"score": score}, ensure_ascii=False)
+
 def parse_products_response(response_text: str) -> list[Product]:
     start = response_text.find(DATA_START)
     if start == -1:
@@ -211,7 +252,7 @@ def run_assistant(user_input):
 
     pending_input = user_input
     previous_id = last_response_id
-    max_steps = 10
+    max_steps = 15
     step = 0
 
     while step < max_steps:
@@ -255,6 +296,11 @@ def run_assistant(user_input):
                     elif tool_name == "save_product":
                         observation = save_product(
                             product_data=tool_args["product"],
+                        )
+                    elif tool_name == "compare_products":
+                        observation = compare_products(
+                            variant_a_data=tool_args["variant_a"],
+                            variant_b_data=tool_args["variant_b"],
                         )
                     else:
                         observation = f"Error: tool {tool_name} not found"

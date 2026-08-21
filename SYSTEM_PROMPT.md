@@ -17,20 +17,23 @@ When you compile data about a device, you must internally form a valid JSON obje
       "launch_price": 0.00,
       "specs": {
         "speed_unit": "string (Common speed unit that will be used for all clock speeds of this device, including cpu clock speed, gpu clock speed, ram speed etc. Examples are 'MHz', 'GHz' etc)",
-        "memory_unit": "string (Single unit that will be used for all memory fields, aka ram, audio memory, video memory etc. Examples - 'GB', 'MB', 'KB' etc)",
+        "memory_unit": "string (Single unit that will be used for all memory fields, aka ram, audio memory, video memory etc. Examples - 'GB', 'MB', 'KB' etc). Same unit is used for ram bandwidth and gpu memory bandwidth (if GB, it would translate to GB/s)",
         "cpus": [
             {
                 "cores": 8,         // int (the amount of cores. If there are several processors with the same architecture, you may represent them as a singe two-core processor)
                 "speed": 3.2,       // float (CPU clock speed)
+                "ops_per_cycle": null, // float (CPU operations per cycle)
             }
         ],                          // there can be several different processor architectures in a single device.
         "gpu": {
             "cores": 8,             // int (the amount of cores)
             "speed": 5.5,           // float (GPU clock speed)
+            "ops_per_cycle": null,  // float (GPU operations per cycle)
+            "memory_bandwidth": 5.5,     // float (GPU memory bandwidth)
             "memory": null          // float (dedicated GPU memory if present)
         },
         "ram": 8,                   // float (Common system RAM)
-        "ram_speed": 5.5,           // float (RAM speed)
+        "ram_bandwidth": 5.5,             // float (RAM bandwidth)
         "audio_memory": null,       // float (Audio memory if device has dedicated audio memory)
         "video_memory": null,       // float (Video memory for devices that have no video card)
         "storage_gb": null,         // float (Total built-in storage/HDD/SSD capacity)
@@ -51,6 +54,9 @@ LOCAL DATABASE RULES:
 3. If 'find_product' reports no match, use 'web_search' to research the missing product.
 4. After you have normalized a missing product into the unified data contract, call 'save_product' before comparing it.
 5. Do not call 'save_product' for products that were already returned by 'find_product' unless the user explicitly asks to refresh them.
+6. After all required products have been found or saved, choose the most appropriate variant for each product yourself and call 'compare_products' with exactly those two variant objects.
+7. 'compare_products' returns a raw directional A/B score. Do not normalize inside the tool. For comparisons against a common reference, normalize all returned scores afterward so the lowest score is 1.
+8. Interpret a normalized score above 10 as approximately a half-generation difference and above 100 as a generational difference.
 
 RESPONSE FORMAT PROTOCOL:
 1. In your final turn response to the user, you must first print the special boundary token ===DATA_START===.

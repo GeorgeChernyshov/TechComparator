@@ -1,0 +1,465 @@
+[
+  {
+    "main_name": "PlayStation 2",
+    "brand": "Sony",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2000,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 294.912,
+              "ops_per_cycle": 2.0
+            }
+          ],
+          "gpu": {
+            "cores": null,
+            "speed": 147.456,
+            "ops_per_cycle": 1.0,
+            "memory_bandwidth": 48000.0,
+            "memory": 4.0
+          },
+          "ram": 32.0,
+          "ram_bandwidth": 3200.0,
+          "audio_memory": 2.0,
+          "video_memory": null,
+          "storage_gb": null,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation 3",
+    "brand": "Sony",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2006,
+        "launch_price": 499.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3200.0,
+              "ops_per_cycle": 2.0
+            },
+            {
+              "cores": 8,
+              "speed": 3200.0,
+              "ops_per_cycle": 4.0
+            }
+          ],
+          "gpu": {
+            "cores": 24,
+            "speed": 550.0,
+            "ops_per_cycle": 2.0,
+            "memory_bandwidth": 22400.0,
+            "memory": 256.0
+          },
+          "ram": 256.0,
+          "ram_bandwidth": 25600.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 20.0,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation 4",
+    "brand": "Sony",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2013,
+        "launch_price": 399.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 1600.0,
+              "ops_per_cycle": 2.0
+            }
+          ],
+          "gpu": {
+            "cores": 18,
+            "speed": 800.0,
+            "ops_per_cycle": 128.0,
+            "memory_bandwidth": null,
+            "memory": null
+          },
+          "ram": 8.0,
+          "ram_bandwidth": 176.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 500.0,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation 5",
+    "brand": "Sony",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2020,
+        "launch_price": 499.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 3500.0,
+              "ops_per_cycle": 5.0
+            }
+          ],
+          "gpu": {
+            "cores": 36,
+            "speed": 2230.0,
+            "ops_per_cycle": 128.0,
+            "memory_bandwidth": null,
+            "memory": null
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 448.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 825.0,
+          "storage_speed": 5.5
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation",
+    "brand": "Sony",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1995,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 33.8688,
+              "ops_per_cycle": 1.0
+            }
+          ],
+          "gpu": {
+            "cores": null,
+            "speed": 53.693175,
+            "ops_per_cycle": 1.0,
+            "memory_bandwidth": 264.0,
+            "memory": 1.0
+          },
+          "ram": 2.0,
+          "ram_bandwidth": 132.0,
+          "audio_memory": 0.5,
+          "video_memory": null,
+          "storage_gb": null,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Super Nintendo Entertainment System",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1991,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.58,
+              "ops_per_cycle": 0.25
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 5.37,
+            "ops_per_cycle": null,
+            "memory_bandwidth": 10740.0,
+            "memory": 64.0
+          },
+          "ram": 128.0,
+          "ram_bandwidth": 2680.0,
+          "audio_memory": 64.0,
+          "video_memory": null,
+          "storage_gb": null,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo Entertainment System",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1985,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.25
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": null,
+            "memory_bandwidth": 5370.0,
+            "memory": 2.0
+          },
+          "ram": 2.0,
+          "ram_bandwidth": 1790.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": null,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari 2600",
+    "brand": "Atari",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1977,
+        "launch_price": 189.95,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.19,
+              "ops_per_cycle": 0.25
+            }
+          ],
+          "gpu": null,
+          "ram": 0.128,
+          "ram_bandwidth": 1190.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": null,
+          "storage_speed": null
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "MacBook Pro",
+    "brand": "Apple",
+    "category": "laptop",
+    "variants": [
+      {
+        "variant_name": "16-inch i7 16GB/512GB",
+        "release_year": 2019,
+        "launch_price": 2399.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 6,
+              "speed": 4.5,
+              "ops_per_cycle": 4.0
+            }
+          ],
+          "gpu": {
+            "cores": 22,
+            "speed": 1.25,
+            "ops_per_cycle": 128.0,
+            "memory_bandwidth": 192.0,
+            "memory": 4.0
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 42.7,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 512.0,
+          "storage_speed": 3.2
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "MacBook Air",
+    "brand": "Apple",
+    "category": "laptop",
+    "variants": [
+      {
+        "variant_name": "13-inch M3 8-core GPU 16GB/256GB",
+        "release_year": 2024,
+        "launch_price": 1299.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": null,
+              "ops_per_cycle": 8.0
+            }
+          ],
+          "gpu": {
+            "cores": 8,
+            "speed": 1.38,
+            "ops_per_cycle": 256.0,
+            "memory_bandwidth": 100.0,
+            "memory": null
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 100.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 256.0,
+          "storage_speed": 2.8
+        }
+      },
+      {
+        "variant_name": "13-inch M3 8-core GPU 16GB/512GB",
+        "release_year": 2024,
+        "launch_price": 1499.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 4.05,
+              "ops_per_cycle": 8.0
+            }
+          ],
+          "gpu": {
+            "cores": 8,
+            "speed": 1.38,
+            "ops_per_cycle": 256.0,
+            "memory_bandwidth": 100.0,
+            "memory": null
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 100.0,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 512.0,
+          "storage_speed": 3.5
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "ASUS TUF Gaming",
+    "brand": "ASUS",
+    "category": "laptop",
+    "variants": [
+      {
+        "variant_name": "F15 FX507ZM i7-12700H RTX 3060 16GB/512GB",
+        "release_year": 2022,
+        "launch_price": 1499.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 6,
+              "speed": 4.7,
+              "ops_per_cycle": 6.0
+            },
+            {
+              "cores": 8,
+              "speed": 3.5,
+              "ops_per_cycle": 6.0
+            }
+          ],
+          "gpu": {
+            "cores": 30,
+            "speed": 1.7,
+            "ops_per_cycle": 256.0,
+            "memory_bandwidth": 336.0,
+            "memory": 6.0
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 76.8,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 512.0,
+          "storage_speed": 5.0
+        }
+      },
+      {
+        "variant_name": "F15 FX507ZM i7-12700H RTX 3060 16GB/1024GB",
+        "release_year": 2022,
+        "launch_price": 1499.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 6,
+              "speed": 4.7,
+              "ops_per_cycle": 6.0
+            },
+            {
+              "cores": 8,
+              "speed": 3.5,
+              "ops_per_cycle": 6.0
+            }
+          ],
+          "gpu": {
+            "cores": 30,
+            "speed": 1.7,
+            "ops_per_cycle": 256.0,
+            "memory_bandwidth": 336.0,
+            "memory": 6.0
+          },
+          "ram": 16.0,
+          "ram_bandwidth": 76.8,
+          "audio_memory": null,
+          "video_memory": null,
+          "storage_gb": 1024.0,
+          "storage_speed": 5.0
+        }
+      }
+    ]
+  }
+]

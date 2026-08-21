@@ -40,9 +40,11 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                 memory_unit,
                 gpu_cores,
                 gpu_speed,
+                gpu_ops_per_cycle,
+                gpu_memory_bandwidth,
                 gpu_memory,
                 ram,
-                ram_speed,
+                ram_bandwidth,
                 audio_memory,
                 video_memory,
                 storage_gb,
@@ -57,7 +59,7 @@ def find_product(product_name: str, db_file: str) -> Product | None:
         for variant_row in variant_rows:
             cpu_rows = conn.execute(
                 """
-                SELECT cores, speed
+                SELECT cores, speed, cpu_ops_per_cycle
                 FROM tech_variant_cpus
                 WHERE variant_id = ?
                 ORDER BY position
@@ -69,11 +71,19 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                 GpuSpec(
                     cores=variant_row["gpu_cores"],
                     speed=variant_row["gpu_speed"],
+                    ops_per_cycle=variant_row["gpu_ops_per_cycle"],
+                    memory_bandwidth=variant_row["gpu_memory_bandwidth"],
                     memory=variant_row["gpu_memory"],
                 )
                 if any(
                     variant_row[field] is not None
-                    for field in ("gpu_cores", "gpu_speed", "gpu_memory")
+                    for field in (
+                        "gpu_cores",
+                        "gpu_speed",
+                        "gpu_ops_per_cycle",
+                        "gpu_memory_bandwidth",
+                        "gpu_memory",
+                    )
                 )
                 else None
             )
@@ -87,12 +97,16 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                         speed_unit=variant_row["speed_unit"],
                         memory_unit=variant_row["memory_unit"],
                         cpus=[
-                            CpuSpec(cores=row["cores"], speed=row["speed"])
+                            CpuSpec(
+                                cores=row["cores"],
+                                speed=row["speed"],
+                                ops_per_cycle=row["cpu_ops_per_cycle"],
+                            )
                             for row in cpu_rows
                         ],
                         gpu=gpu,
                         ram=variant_row["ram"],
-                        ram_speed=variant_row["ram_speed"],
+                        ram_bandwidth=variant_row["ram_bandwidth"],
                         audio_memory=variant_row["audio_memory"],
                         video_memory=variant_row["video_memory"],
                         storage_gb=variant_row["storage_gb"],
@@ -152,9 +166,11 @@ def init_agent_database(db_file: str) -> None:
             memory_unit TEXT,
             gpu_cores INTEGER,
             gpu_speed REAL,
+            gpu_ops_per_cycle REAL,
+            gpu_memory_bandwidth REAL,
             gpu_memory REAL,
             ram REAL,
-            ram_speed REAL,
+            ram_bandwidth REAL,
             audio_memory REAL,
             video_memory REAL,
             storage_gb REAL,
@@ -173,6 +189,7 @@ def init_agent_database(db_file: str) -> None:
             position INTEGER NOT NULL,
             cores INTEGER,
             speed REAL,
+            cpu_ops_per_cycle REAL,
             UNIQUE(variant_id, position),
             FOREIGN KEY (variant_id)
                 REFERENCES tech_variants(id)
@@ -258,9 +275,11 @@ def save_research_results(
                         specs.memory_unit,
                         gpu.cores if gpu else None,
                         gpu.speed if gpu else None,
+                        gpu.ops_per_cycle if gpu else None,
+                        gpu.memory_bandwidth if gpu else None,
                         gpu.memory if gpu else None,
                         specs.ram,
-                        specs.ram_speed,
+                        specs.ram_bandwidth,
                         specs.audio_memory,
                         specs.video_memory,
                         specs.storage_gb,
@@ -279,15 +298,17 @@ def save_research_results(
                                 memory_unit,
                                 gpu_cores,
                                 gpu_speed,
+                                gpu_ops_per_cycle,
+                                gpu_memory_bandwidth,
                                 gpu_memory,
                                 ram,
-                                ram_speed,
+                                ram_bandwidth,
                                 audio_memory,
                                 video_memory,
                                 storage_gb,
                                 storage_speed
                             )
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             """,
                             (product_id, *values),
                         )
@@ -305,9 +326,11 @@ def save_research_results(
                                 memory_unit = ?,
                                 gpu_cores = ?,
                                 gpu_speed = ?,
+                                gpu_ops_per_cycle = ?,
+                                gpu_memory_bandwidth = ?,
                                 gpu_memory = ?,
                                 ram = ?,
-                                ram_speed = ?,
+                                ram_bandwidth = ?,
                                 audio_memory = ?,
                                 video_memory = ?,
                                 storage_gb = ?,
@@ -328,12 +351,19 @@ def save_research_results(
                             variant_id,
                             position,
                             cores,
-                            speed
+                            speed,
+                            cpu_ops_per_cycle
                         )
-                        VALUES (?, ?, ?, ?)
+                        VALUES (?, ?, ?, ?, ?)
                         """,
                         [
-                            (variant_id, position, cpu.cores, cpu.speed)
+                            (
+                                variant_id,
+                                position,
+                                cpu.cores,
+                                cpu.speed,
+                                cpu.ops_per_cycle,
+                            )
                             for position, cpu in enumerate(specs.cpus)
                         ],
                     )
