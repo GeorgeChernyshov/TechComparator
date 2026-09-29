@@ -120,16 +120,58 @@ tools = [
                                                     "cores": {"type": ["integer", "null"]},
                                                     "speed": {"type": ["number", "null"]},
                                                     "ops_per_cycle": {"type": ["number", "null"]},
-                                                    "memory_bandwidth": {"type": ["number", "null"]},
-                                                    "memory": {"type": ["number", "null"]},
                                                 },
                                             },
-                                            "ram": {"type": ["number", "null"]},
-                                            "ram_bandwidth": {"type": ["number", "null"]},
-                                            "audio_memory": {"type": ["number", "null"]},
-                                            "video_memory": {"type": ["number", "null"]},
-                                            "storage_gb": {"type": ["number", "null"]},
-                                            "storage_speed": {"type": ["number", "null"]},
+                                            "audio": {
+                                                "type": ["object", "null"],
+                                                "properties": {
+                                                    "cores": {"type": ["integer", "null"]},
+                                                    "speed": {"type": ["number", "null"]},
+                                                    "ops_per_cycle": {"type": ["number", "null"]},
+                                                },
+                                            },
+                                            "memory": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {"type": "string"},
+                                                        "capacity": {"type": "number", "exclusiveMinimum": 0},
+                                                        "bandwidth": {"type": "number", "exclusiveMinimum": 0},
+                                                        "accessible_by": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "enum": ["cpu", "gpu", "audio"],
+                                                            },
+                                                        },
+                                                    },
+                                                    "required": [
+                                                        "name",
+                                                        "capacity",
+                                                        "bandwidth",
+                                                        "accessible_by",
+                                                    ],
+                                                    "additionalProperties": False,
+                                                },
+                                            },
+                                            "storage": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {"type": "string"},
+                                                        "capacity": {"type": "number", "exclusiveMinimum": 0},
+                                                        "bandwidth": {"type": "number", "exclusiveMinimum": 0},
+                                                    },
+                                                    "required": [
+                                                        "name",
+                                                        "capacity",
+                                                        "bandwidth",
+                                                    ],
+                                                    "additionalProperties": False,
+                                                },
+                                            },
                                         },
                                     },
                                 },
@@ -146,21 +188,26 @@ tools = [
         "type": "function",
         "name": "compare_products",
         "description": (
-            "Calculate the raw directional comparison score A/B for two "
-            "selected variants. The score is the product "
-            "of all numeric technical-specification ratios. Missing or zero "
-            "values contribute 1. Do not normalize this result."
+            "Calculate the raw directional comparison score B/A for two "
+            "selected variants: variant_a is the baseline and denominator, "
+            "and variant_b is the compared product and numerator. A returned "
+            "score of 2 means variant_b is twice as powerful as variant_a; "
+            "a score of 0.5 means variant_b is half as powerful as variant_a. "
+            "Working RAM contributes to its accessible processor branch; "
+            "storage contributes as a separate multiplier. Do not normalize "
+            "this result. Include the parent product's main_name in each variant "
+            "object for logging."
         ),
         "parameters": {
             "type": "object",
             "properties": {
                 "variant_a": {
                     "type": "object",
-                    "description": "The selected numerator variant from product A.",
+                    "description": "The baseline/denominator variant A, including its main_name.",
                 },
                 "variant_b": {
                     "type": "object",
-                    "description": "The selected denominator variant from product B.",
+                    "description": "The compared/numerator variant B, including its main_name.",
                 },
             },
             "required": ["variant_a", "variant_b"],
@@ -220,12 +267,22 @@ def compare_products(
     variant_a_data: dict,
     variant_b_data: dict,
 ) -> str:
-    """Calculate and return one raw A/B comparison score."""
+    """Calculate and return one raw B/A comparison score."""
     score = calculate_comparison(
         ProductVariant.from_dict(variant_a_data),
         ProductVariant.from_dict(variant_b_data),
     )
     return json.dumps({"score": score}, ensure_ascii=False)
+
+
+def format_tool_log(tool_name: str, tool_args: dict) -> str:
+    """Return a concise log message without exposing comparison payloads."""
+    if tool_name == "compare_products":
+        product_a = tool_args["variant_a"].get("main_name", "unknown product")
+        product_b = tool_args["variant_b"].get("main_name", "unknown product")
+        return f"Comparing '{product_a}' to '{product_b}'."
+
+    return f"Calling tool '{tool_name}' with arguments: {tool_args}"
 
 def parse_products_response(response_text: str) -> list[Product]:
     start = response_text.find(DATA_START)
@@ -252,7 +309,7 @@ def run_assistant(user_input):
 
     pending_input = user_input
     previous_id = last_response_id
-    max_steps = 15
+    max_steps = 50
     step = 0
 
     while step < max_steps:
@@ -284,7 +341,7 @@ def run_assistant(user_input):
                 tool_name = tool_call.name
                 tool_args = json.loads(tool_call.arguments)
 
-                print(f"[Log] Calling tool '{tool_name}' with arguments: {tool_args}")
+                print(f"[Log] {format_tool_log(tool_name, tool_args)}")
                 
                 try:
                     if tool_name == "find_product":
@@ -320,11 +377,6 @@ def run_assistant(user_input):
 
         elif response.output_text:
             last_response_id = response.id
-
-            try:
-                parse_products_response(response.output_text)
-            except ValueError as error:
-                print(f"[Error] Final result failed validation: {error}")
 
             print("[Debug] Data collection done. Returning final response.")
             print(response.output_text)

@@ -15,22 +15,57 @@
             {
               "cores": 1,
               "speed": 294.912,
-              "ops_per_cycle": 2.0
+              "ops_per_cycle": 21.0
             }
           ],
           "gpu": {
-            "cores": null,
+            "cores": 16,
             "speed": 147.456,
-            "ops_per_cycle": 1.0,
-            "memory_bandwidth": 48000.0,
-            "memory": 4.0
+            "ops_per_cycle": 1
           },
-          "ram": 32.0,
-          "ram_bandwidth": 3200.0,
-          "audio_memory": 2.0,
-          "video_memory": null,
-          "storage_gb": null,
-          "storage_speed": null
+          "audio": {
+            "cores": 2,
+            "speed": 36.864,
+            "ops_per_cycle": 0.5
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 32,
+              "bandwidth": 3200,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 4,
+              "bandwidth": 48000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 2,
+              "bandwidth": 150,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "DVD-ROM",
+              "capacity": 4700,
+              "bandwidth": 5.28
+            },
+            {
+              "name": "Memory Card",
+              "capacity": 8,
+              "bandwidth": 0.13
+            }
+          ]
         }
       }
     ]
@@ -51,27 +86,50 @@
             {
               "cores": 1,
               "speed": 3200.0,
-              "ops_per_cycle": 2.0
+              "ops_per_cycle": 8.0
             },
             {
-              "cores": 8,
+              "cores": 7,
               "speed": 3200.0,
-              "ops_per_cycle": 4.0
+              "ops_per_cycle": 8.0
             }
           ],
           "gpu": {
             "cores": 24,
-            "speed": 550.0,
-            "ops_per_cycle": 2.0,
-            "memory_bandwidth": 22400.0,
-            "memory": 256.0
+            "speed": 500.0,
+            "ops_per_cycle": 16.0
           },
-          "ram": 256.0,
-          "ram_bandwidth": 25600.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 20.0,
-          "storage_speed": null
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 256,
+              "bandwidth": 25600,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 256,
+              "bandwidth": 22400,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 20000,
+              "bandwidth": 40
+            },
+            {
+              "name": "Blu-ray Game Disc",
+              "capacity": 25000,
+              "bandwidth": 8.58
+            }
+          ]
         }
       }
     ]
@@ -92,22 +150,99 @@
             {
               "cores": 8,
               "speed": 1600.0,
-              "ops_per_cycle": 2.0
+              "ops_per_cycle": 8.0
             }
           ],
           "gpu": {
             "cores": 18,
             "speed": 800.0,
-            "ops_per_cycle": 128.0,
-            "memory_bandwidth": null,
-            "memory": null
+            "ops_per_cycle": 128.0
           },
-          "ram": 8.0,
-          "ram_bandwidth": 176.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 500.0,
-          "storage_speed": null
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified GDDR5",
+              "capacity": 8,
+              "bandwidth": 176,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Auxiliary processor DDR3",
+              "capacity": 0.256,
+              "bandwidth": 3.2,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal hard drive",
+              "capacity": 500,
+              "bandwidth": 0.1
+            },
+            {
+              "name": "Blu-ray game disc",
+              "capacity": 50,
+              "bandwidth": 0.027
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Pro",
+        "release_year": 2016,
+        "launch_price": 399.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 2130.0,
+              "ops_per_cycle": 8.0
+            }
+          ],
+          "gpu": {
+            "cores": 36,
+            "speed": 911.0,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified GDDR5",
+              "capacity": 8,
+              "bandwidth": 217.6,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Auxiliary processor DDR3",
+              "capacity": 1,
+              "bandwidth": 3.2,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal hard drive",
+              "capacity": 1000,
+              "bandwidth": 0.1
+            },
+            {
+              "name": "Blu-ray game disc",
+              "capacity": 50,
+              "bandwidth": 0.027
+            }
+          ]
         }
       }
     ]
@@ -128,22 +263,78 @@
             {
               "cores": 8,
               "speed": 3500.0,
-              "ops_per_cycle": 5.0
+              "ops_per_cycle": 32.0
             }
           ],
           "gpu": {
             "cores": 36,
             "speed": 2230.0,
-            "ops_per_cycle": 128.0,
-            "memory_bandwidth": null,
-            "memory": null
+            "ops_per_cycle": 128.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 448.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 825.0,
-          "storage_speed": 5.5
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified GDDR6",
+              "capacity": 16,
+              "bandwidth": 448,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal SSD",
+              "capacity": 825,
+              "bandwidth": 5.5
+            },
+            {
+              "name": "Ultra HD Blu-ray game disc",
+              "capacity": 100,
+              "bandwidth": 0.045
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Pro",
+        "release_year": 2024,
+        "launch_price": 699.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 3500.0,
+              "ops_per_cycle": 32.0
+            }
+          ],
+          "gpu": {
+            "cores": 60,
+            "speed": 2175.0,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified GDDR6",
+              "capacity": 16,
+              "bandwidth": 576,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal SSD",
+              "capacity": 2048,
+              "bandwidth": 5.5
+            }
+          ]
         }
       }
     ]
@@ -168,18 +359,61 @@
             }
           ],
           "gpu": {
-            "cores": null,
+            "cores": 1,
             "speed": 53.693175,
-            "ops_per_cycle": 1.0,
-            "memory_bandwidth": 264.0,
-            "memory": 1.0
+            "ops_per_cycle": 2.4
           },
-          "ram": 2.0,
-          "ram_bandwidth": 132.0,
-          "audio_memory": 0.5,
-          "video_memory": null,
-          "storage_gb": null,
-          "storage_speed": null
+          "audio": {
+            "cores": 1,
+            "speed": 33.8688,
+            "ops_per_cycle": 0.5
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2,
+              "bandwidth": 132,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 1,
+              "bandwidth": 132,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 0.5,
+              "bandwidth": 8.47,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "CD Buffer RAM",
+              "capacity": 0.032,
+              "bandwidth": 33.9,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 0.5,
+              "bandwidth": 16.9
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 660,
+              "bandwidth": 0.3
+            }
+          ]
         }
       }
     ]
@@ -199,23 +433,53 @@
           "cpus": [
             {
               "cores": 1,
-              "speed": 3.58,
+              "speed": 2.68,
               "ops_per_cycle": 0.25
             }
           ],
           "gpu": {
             "cores": 2,
             "speed": 5.37,
-            "ops_per_cycle": null,
-            "memory_bandwidth": 10740.0,
-            "memory": 64.0
+            "ops_per_cycle": 0.265625
           },
-          "ram": 128.0,
-          "ram_bandwidth": 2680.0,
-          "audio_memory": 64.0,
-          "video_memory": null,
-          "storage_gb": null,
-          "storage_speed": null
+          "audio": {
+            "cores": 1,
+            "speed": 3.072,
+            "ops_per_cycle": 0.75
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 128.0,
+              "bandwidth": 2680.0,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 10740.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 64.0,
+              "bandwidth": 3072.0,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024.0,
+              "bandwidth": 2680.0
+            }
+          ]
         }
       }
     ]
@@ -236,22 +500,125 @@
             {
               "cores": 1,
               "speed": 1.79,
-              "ops_per_cycle": 0.25
+              "ops_per_cycle": 0.125
             }
           ],
           "gpu": {
             "cores": 1,
             "speed": 5.37,
-            "ops_per_cycle": null,
-            "memory_bandwidth": 5370.0,
-            "memory": 2.0
+            "ops_per_cycle": 0.15625
           },
-          "ram": 2.0,
-          "ram_bandwidth": 1790.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": null,
-          "storage_speed": null
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2.0,
+              "bandwidth": 1790.0,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 2.0,
+              "bandwidth": 2685.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "OAM",
+              "capacity": 0.25,
+              "bandwidth": 2685.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge PRG ROM",
+              "capacity": 128.0,
+              "bandwidth": 1790.0
+            },
+            {
+              "name": "Cartridge CHR ROM",
+              "capacity": 128.0,
+              "bandwidth": 2685.0
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Famicom Disk System",
+        "release_year": 1986,
+        "launch_price": 175.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": 0.15625
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 1.79,
+            "ops_per_cycle": 0.1875
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 34.0,
+              "bandwidth": 1790.0,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 10.0,
+              "bandwidth": 2685.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "OAM",
+              "capacity": 0.25,
+              "bandwidth": 2685.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.064,
+              "bandwidth": 1790.0,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "FDS BIOS ROM",
+              "capacity": 8.0,
+              "bandwidth": 1790.0
+            },
+            {
+              "name": "Disk Card",
+              "capacity": 128.0,
+              "bandwidth": 12.0
+            }
+          ]
         }
       }
     ]
@@ -272,16 +639,33 @@
             {
               "cores": 1,
               "speed": 1.19,
-              "ops_per_cycle": 0.25
+              "ops_per_cycle": 0.125
             }
           ],
-          "gpu": null,
-          "ram": 0.128,
-          "ram_bandwidth": 1190.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": null,
-          "storage_speed": null
+          "gpu": {
+            "cores": 1,
+            "speed": 3.57,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 0.128,
+              "bandwidth": 1190.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 4,
+              "bandwidth": 1190.0
+            }
+          ]
         }
       }
     ]
@@ -301,23 +685,41 @@
           "cpus": [
             {
               "cores": 6,
-              "speed": 4.5,
-              "ops_per_cycle": 4.0
+              "speed": 2.6,
+              "ops_per_cycle": 32.0
             }
           ],
           "gpu": {
-            "cores": 22,
-            "speed": 1.25,
-            "ops_per_cycle": 128.0,
-            "memory_bandwidth": 192.0,
-            "memory": 4.0
+            "cores": 20,
+            "speed": 1,
+            "ops_per_cycle": 128.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 42.7,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 512.0,
-          "storage_speed": 3.2
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 42.7,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 4.0,
+              "bandwidth": 192.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 512.0,
+              "bandwidth": 3.2
+            }
+          ]
         }
       }
     ]
@@ -336,24 +738,40 @@
           "memory_unit": "GB",
           "cpus": [
             {
-              "cores": 8,
-              "speed": null,
-              "ops_per_cycle": 8.0
+              "cores": 4,
+              "speed": 3.6,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 4,
+              "speed": 2.75,
+              "ops_per_cycle": 16.0
             }
           ],
           "gpu": {
             "cores": 8,
-            "speed": 1.38,
-            "ops_per_cycle": 256.0,
-            "memory_bandwidth": 100.0,
-            "memory": null
+            "speed": 1.35,
+            "ops_per_cycle": 256.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 100.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 256.0,
-          "storage_speed": 2.8
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 100.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 256.0,
+              "bandwidth": 2.8
+            }
+          ]
         }
       },
       {
@@ -365,24 +783,130 @@
           "memory_unit": "GB",
           "cpus": [
             {
-              "cores": 8,
-              "speed": 4.05,
-              "ops_per_cycle": 8.0
+              "cores": 4,
+              "speed": 3.6,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 4,
+              "speed": 2.75,
+              "ops_per_cycle": 16.0
             }
           ],
           "gpu": {
             "cores": 8,
-            "speed": 1.38,
-            "ops_per_cycle": 256.0,
-            "memory_bandwidth": 100.0,
-            "memory": null
+            "speed": 1.35,
+            "ops_per_cycle": 256.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 100.0,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 512.0,
-          "storage_speed": 3.5
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 100.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 512.0,
+              "bandwidth": 3.5
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "13-inch M4 10-core GPU 16GB/512GB",
+        "release_year": 2025,
+        "launch_price": 1199.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 4,
+              "speed": 3.68,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 6,
+              "speed": 2.47,
+              "ops_per_cycle": 16.0
+            }
+          ],
+          "gpu": {
+            "cores": 10,
+            "speed": 1.47,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 120.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 512.0,
+              "bandwidth": 3.5
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "13-inch M5 8-core GPU 16GB/512GB",
+        "release_year": 2026,
+        "launch_price": 1099.0,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 4,
+              "speed": 3.8,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 6,
+              "speed": 2.6,
+              "ops_per_cycle": 16.0
+            }
+          ],
+          "gpu": {
+            "cores": 8,
+            "speed": 1.58,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 153.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 512.0,
+              "bandwidth": 6.7
+            }
+          ]
         }
       }
     ]
@@ -402,28 +926,46 @@
           "cpus": [
             {
               "cores": 6,
-              "speed": 4.7,
-              "ops_per_cycle": 6.0
+              "speed": 2.3,
+              "ops_per_cycle": 32.0
             },
             {
               "cores": 8,
-              "speed": 3.5,
-              "ops_per_cycle": 6.0
+              "speed": 1.752,
+              "ops_per_cycle": 16.0
             }
           ],
           "gpu": {
             "cores": 30,
-            "speed": 1.7,
-            "ops_per_cycle": 256.0,
-            "memory_bandwidth": 336.0,
-            "memory": 6.0
+            "speed": 1.387,
+            "ops_per_cycle": 256.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 76.8,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 512.0,
-          "storage_speed": 5.0
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 76.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 6.0,
+              "bandwidth": 336.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 512.0,
+              "bandwidth": 3.0
+            }
+          ]
         }
       },
       {
@@ -436,28 +978,3980 @@
           "cpus": [
             {
               "cores": 6,
-              "speed": 4.7,
-              "ops_per_cycle": 6.0
+              "speed": 2.3,
+              "ops_per_cycle": 32.0
             },
             {
               "cores": 8,
-              "speed": 3.5,
-              "ops_per_cycle": 6.0
+              "speed": 1.752,
+              "ops_per_cycle": 16.0
             }
           ],
           "gpu": {
             "cores": 30,
-            "speed": 1.7,
-            "ops_per_cycle": 256.0,
-            "memory_bandwidth": 336.0,
-            "memory": 6.0
+            "speed": 1.387,
+            "ops_per_cycle": 256.0
           },
-          "ram": 16.0,
-          "ram_bandwidth": 76.8,
-          "audio_memory": null,
-          "video_memory": null,
-          "storage_gb": 1024.0,
-          "storage_speed": 5.0
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 76.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 6.0,
+              "bandwidth": 336.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 1024.0,
+              "bandwidth": 3.5
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Custom",
+        "release_year": 2022,
+        "launch_price": 1919.97,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 6,
+              "speed": 2.3,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 8,
+              "speed": 1.752,
+              "ops_per_cycle": 16.0
+            }
+          ],
+          "gpu": {
+            "cores": 30,
+            "speed": 1.387,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64.0,
+              "bandwidth": 76.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 6.0,
+              "bandwidth": 336.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 1024.0,
+              "bandwidth": 3.5
+            },
+            {
+              "name": "Secondary NVMe storage",
+              "capacity": 2048.0,
+              "bandwidth": 5.0
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "F16 FX608LPG-BB94 Ultra 9 290HX Plus RTX 5070 16GB/1024GB",
+        "release_year": 2026,
+        "launch_price": 2399.99,
+        "specs": {
+          "speed_unit": "GHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 2.7,
+              "ops_per_cycle": 32.0
+            },
+            {
+              "cores": 16,
+              "speed": 1.8,
+              "ops_per_cycle": 16.0
+            }
+          ],
+          "gpu": {
+            "cores": 36,
+            "speed": 1.545,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 44.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 8.0,
+              "bandwidth": 384.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 1024.0,
+              "bandwidth": 6.0
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Fairchild Channel F",
+    "brand": "Fairchild Semiconductor",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1976,
+        "launch_price": 169.95,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": null,
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 0.064,
+              "bandwidth": 447.5,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 2,
+              "bandwidth": 447.5,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 2,
+              "bandwidth": 447.5
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 2,
+              "bandwidth": 447.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "RCA Studio II",
+    "brand": "RCA",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1977,
+        "launch_price": 149.95,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.76,
+              "ops_per_cycle": 0.015625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 1.76,
+            "ops_per_cycle": 0.03125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 0.5,
+              "bandwidth": 220,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 2,
+              "bandwidth": 220
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1,
+              "bandwidth": 220
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari 5200",
+    "brand": "Atari",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1982,
+        "launch_price": 269.95,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 1.79,
+            "ops_per_cycle": 0.125
+          },
+          "audio": {
+            "cores": 4,
+            "speed": 1.79,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16.0,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 2.0,
+              "bandwidth": 1790
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 8.0,
+              "bandwidth": 1790
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "ColecoVision",
+    "brand": "Coleco",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1982,
+        "launch_price": 174.99,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.58,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": {
+            "cores": 4,
+            "speed": 3.58,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 1.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 16.0,
+              "bandwidth": 2688.3,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 3580,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 16.0,
+              "bandwidth": 1193.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Magnavox Odyssey 2",
+    "brand": "Magnavox",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1978,
+        "launch_price": 179.95,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 5.37,
+              "ops_per_cycle": 0.01675
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.15625
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 0.064,
+              "bandwidth": 119.3,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 0.128,
+              "bandwidth": 3580,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 1,
+              "bandwidth": 119.3
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 4,
+              "bandwidth": 119.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Vectrex",
+    "brand": "General Consumer Electronics",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1982,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.5,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": null,
+          "audio": {
+            "cores": 3,
+            "speed": 1.5,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 1.0,
+              "bandwidth": 1500,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 1500,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 8,
+              "bandwidth": 1500
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 8,
+              "bandwidth": 1500
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Emerson Arcadia 2001",
+    "brand": "Emerson Radio",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1982,
+        "launch_price": 99.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.041675
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 1.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "UVI internal RAM",
+              "capacity": 0.064,
+              "bandwidth": 3580,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 4,
+              "bandwidth": 1193.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Bally Astrocade",
+    "brand": "Bally Manufacturing",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1977,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 7.16,
+            "ops_per_cycle": 0.25
+          },
+          "audio": {
+            "cores": 3,
+            "speed": 1.79,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 4.0,
+              "bandwidth": 447.5,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 8.0,
+              "bandwidth": 596.7
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 8.0,
+              "bandwidth": 596.7
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Mattel Intellivision",
+    "brand": "Mattel Electronics",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1979,
+        "launch_price": 275.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 0.894,
+              "ops_per_cycle": 0.08335
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": {
+            "cores": 3,
+            "speed": 0.224,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "Scratchpad RAM",
+              "capacity": 0.24,
+              "bandwidth": 894,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "System RAM",
+              "capacity": 0.704,
+              "bandwidth": 1788,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Graphics RAM",
+              "capacity": 0.512,
+              "bandwidth": 3580,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 224,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Graphics ROM",
+              "capacity": 2,
+              "bandwidth": 3580
+            },
+            {
+              "name": "Executive ROM",
+              "capacity": 5,
+              "bandwidth": 1118
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 10,
+              "bandwidth": 1118
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Milton Bradley Microvision",
+    "brand": "Milton Bradley",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1979,
+        "launch_price": 49.99,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 0.5,
+              "ops_per_cycle": 0.020875
+            }
+          ],
+          "gpu": null,
+          "audio": null,
+          "memory": [
+            {
+              "name": "Cartridge MCU RAM",
+              "capacity": 0.064,
+              "bandwidth": 41.7,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Average cartridge ROM",
+              "capacity": 2.048,
+              "bandwidth": 83.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "SG-1000",
+    "brand": "Sega",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1983,
+        "launch_price": 65.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.58,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": {
+            "cores": 4,
+            "speed": 3.58,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 1.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 16.0,
+              "bandwidth": 2688.3,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 3580,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 32.0,
+              "bandwidth": 1193.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Master System",
+    "brand": "Sega",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1985,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.58,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 8,
+              "bandwidth": 1193,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 16,
+              "bandwidth": 7160.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 8,
+              "bandwidth": 1193.0
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 256,
+              "bandwidth": 1193
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari 7800",
+    "brand": "Atari",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1986,
+        "launch_price": 140.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 7.16,
+            "ops_per_cycle": 0.09375
+          },
+          "audio": {
+            "cores": 2,
+            "speed": 1.79,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 4,
+              "bandwidth": 7160,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 4,
+              "bandwidth": 1790
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 32,
+              "bandwidth": 7160
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari XEGS",
+    "brand": "Atari",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1987,
+        "launch_price": 159.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 1.79,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 1.79,
+            "ops_per_cycle": 0.125
+          },
+          "audio": {
+            "cores": 4,
+            "speed": 1.79,
+            "ops_per_cycle": 0.03125
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio memory",
+              "capacity": 0.01,
+              "bandwidth": 1790,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 32,
+              "bandwidth": 1790
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 64,
+              "bandwidth": 1790
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "TurboGrafx-16",
+    "brand": "NEC",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1987,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.16,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 10.74,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 8.0,
+              "bandwidth": 7160,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 21480,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "HuCard ROM",
+              "capacity": 258.0,
+              "bandwidth": 7160
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Genesis",
+    "brand": "Sega",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1989,
+        "launch_price": 189.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.67,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 6.71,
+            "ops_per_cycle": 0.4375
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 3835,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 6710.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024.0,
+              "bandwidth": 3835
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Sega CD",
+        "release_year": 1992,
+        "launch_price": 488.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.67,
+              "ops_per_cycle": 0.125
+            },
+            {
+              "cores": 1,
+              "speed": 12.5,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 9.6,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 3835,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 6710.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Sega CD Program RAM",
+              "capacity": 512,
+              "bandwidth": 6250,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Sega CD Word RAM",
+              "capacity": 256.0,
+              "bandwidth": 5000.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "PCM Waveform RAM",
+              "capacity": 64.0,
+              "bandwidth": 12500,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "CD-ROM Buffer RAM",
+              "capacity": 16.0,
+              "bandwidth": 3125,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Backup RAM",
+              "capacity": 8.0,
+              "bandwidth": 3125
+            },
+            {
+              "name": "BIOS ROM",
+              "capacity": 128.0,
+              "bandwidth": 6250
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 650000,
+              "bandwidth": 150
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Sega 32X",
+        "release_year": 1994,
+        "launch_price": 348.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.67,
+              "ops_per_cycle": 0.125
+            },
+            {
+              "cores": 2,
+              "speed": 23.0,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 14.85,
+            "ops_per_cycle": 0.359375
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 3835,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 6710.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "32X SDRAM",
+              "capacity": 256,
+              "bandwidth": 46000,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "32X Framebuffer RAM",
+              "capacity": 256.0,
+              "bandwidth": 14850.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Boot ROM",
+              "capacity": 3.0,
+              "bandwidth": 11500
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 2048.0,
+              "bandwidth": 11500
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Sega CD + 32X",
+        "release_year": 1994,
+        "launch_price": 647.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.67,
+              "ops_per_cycle": 0.125
+            },
+            {
+              "cores": 2,
+              "speed": 23.0,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 14.85,
+            "ops_per_cycle": 0.359375
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 3835,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 6710.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Sega CD Program RAM",
+              "capacity": 512,
+              "bandwidth": 6250,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Sega CD Word RAM",
+              "capacity": 256.0,
+              "bandwidth": 5000.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "PCM Waveform RAM",
+              "capacity": 64.0,
+              "bandwidth": 12500,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "CD-ROM Buffer RAM",
+              "capacity": 16.0,
+              "bandwidth": 3125,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "32X SDRAM",
+              "capacity": 256,
+              "bandwidth": 46000,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "32X Framebuffer RAM",
+              "capacity": 256.0,
+              "bandwidth": 14850.0,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Backup RAM",
+              "capacity": 8.0,
+              "bandwidth": 3125
+            },
+            {
+              "name": "BIOS ROM",
+              "capacity": 128.0,
+              "bandwidth": 6250
+            },
+            {
+              "name": "Boot ROM",
+              "capacity": 3.0,
+              "bandwidth": 11500
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 650000,
+              "bandwidth": 150
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Neo Geo",
+    "brand": "SNK",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1991,
+        "launch_price": 649.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 12.0,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 6.71,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 4.0,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64.0,
+              "bandwidth": 6000,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Slow VRAM",
+              "capacity": 64.0,
+              "bandwidth": 16000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Fast VRAM",
+              "capacity": 4.0,
+              "bandwidth": 48000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Palette RAM",
+              "capacity": 16.0,
+              "bandwidth": 16000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Video Line Buffers",
+              "capacity": 9.0,
+              "bandwidth": 48000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 2.0,
+              "bandwidth": 1000,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 128.0,
+              "bandwidth": 6000
+            },
+            {
+              "name": "System Fixed-Layer ROM",
+              "capacity": 128.0,
+              "bandwidth": 48000
+            },
+            {
+              "name": "System Audio ROM",
+              "capacity": 128.0,
+              "bandwidth": 1000
+            },
+            {
+              "name": "Cartridge PRG ROM",
+              "capacity": 1024.0,
+              "bandwidth": 6000
+            },
+            {
+              "name": "Cartridge Sprite ROM",
+              "capacity": 4096.0,
+              "bandwidth": 48000
+            },
+            {
+              "name": "Cartridge Fixed-Layer ROM",
+              "capacity": 128.0,
+              "bandwidth": 48000
+            },
+            {
+              "name": "Cartridge Audio Program ROM",
+              "capacity": 128.0,
+              "bandwidth": 1000
+            },
+            {
+              "name": "Cartridge Audio Sample ROM",
+              "capacity": 2048.0,
+              "bandwidth": 8000
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "CD-i",
+    "brand": "Philips",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1991,
+        "launch_price": 799.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 15.5,
+              "ops_per_cycle": 0.07
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 30,
+            "ops_per_cycle": 0.46875
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 1,
+              "bandwidth": 7.7,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 0.5,
+              "bandwidth": 7.7
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 650,
+              "bandwidth": 0.15
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Game Boy",
+    "brand": "Nintendo",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1989,
+        "launch_price": 89.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 4.19,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 4.19,
+            "ops_per_cycle": 0.15625
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 8.0,
+              "bandwidth": 1048.5,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 8.0,
+              "bandwidth": 2097.2,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Boot ROM",
+              "capacity": 0.256,
+              "bandwidth": 1048.5
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 256.0,
+              "bandwidth": 1048.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari Lynx",
+    "brand": "Atari",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1989,
+        "launch_price": 179.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 4.0,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 16,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64.0,
+              "bandwidth": 4000,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Boot ROM",
+              "capacity": 0.5,
+              "bandwidth": 4000
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 256.0,
+              "bandwidth": 1000
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Game Gear",
+    "brand": "Sega",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1990,
+        "launch_price": 149.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.58,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 5.37,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 8,
+              "bandwidth": 1193,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 16,
+              "bandwidth": 7160.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 512,
+              "bandwidth": 1193
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "TurboExpress",
+    "brand": "NEC",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1990,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.16,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 10.74,
+            "ops_per_cycle": 0.28125
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 8.0,
+              "bandwidth": 7160,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 21480,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "HuCard ROM",
+              "capacity": 258.0,
+              "bandwidth": 7160
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo 64",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1996,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 93.75,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 62.5,
+            "ops_per_cycle": 9.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified RDRAM",
+              "capacity": 4,
+              "bandwidth": 500,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "RSP Internal Memory",
+              "capacity": 0.008,
+              "bandwidth": 1000,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 16,
+              "bandwidth": 5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Saturn",
+    "brand": "Sega",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1994,
+        "launch_price": 399.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 2,
+              "speed": 28.63,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 28.63,
+            "ops_per_cycle": 0.75
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 11.3,
+            "ops_per_cycle": 0.07
+          },
+          "memory": [
+            {
+              "name": "High Work RAM",
+              "capacity": 1,
+              "bandwidth": 114.5,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Low Work RAM",
+              "capacity": 1,
+              "bandwidth": 57.3,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "VDP1 Video RAM",
+              "capacity": 0.5,
+              "bandwidth": 57.3,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "VDP1 Framebuffer RAM",
+              "capacity": 0.5,
+              "bandwidth": 114.5,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "VDP2 Video RAM",
+              "capacity": 0.5,
+              "bandwidth": 114.5,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 0.5,
+              "bandwidth": 22.6,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "CD Buffer RAM",
+              "capacity": 0.5,
+              "bandwidth": 80,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 0.5,
+              "bandwidth": 28.6
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 650,
+              "bandwidth": 0.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "3DO",
+    "brand": "The 3DO Company",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1993,
+        "launch_price": 699.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 12.5,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 25,
+            "ops_per_cycle": 1.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 25,
+            "ops_per_cycle": 1.25
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2,
+              "bandwidth": 85.9,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "K-RAM",
+              "capacity": 1,
+              "bandwidth": 43,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 0.25,
+              "bandwidth": 28.6,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "CD-ROM Buffer RAM",
+              "capacity": 0.25,
+              "bandwidth": 43,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 1,
+              "bandwidth": 43
+            },
+            {
+              "name": "CD-ROM",
+              "capacity": 650,
+              "bandwidth": 0.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Atari Jaguar",
+    "brand": "Atari",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1993,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 13.29,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 26.59,
+            "ops_per_cycle": 1.5
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 26.59,
+            "ops_per_cycle": 1.5
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2,
+              "bandwidth": 106.4,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 0.008,
+              "bandwidth": 106.4,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 2,
+              "bandwidth": 26.6
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PC-FX",
+    "brand": "NEC",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1994,
+        "launch_price": 399.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 21.475,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 7.16,
+            "ops_per_cycle": 0.296875
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2,
+              "bandwidth": 85,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 1.25,
+              "bandwidth": 28.6,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 1,
+              "bandwidth": 85,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "CD-ROM",
+              "capacity": 650,
+              "bandwidth": 0.3
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Game Boy Color",
+    "brand": "Nintendo",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1998,
+        "launch_price": 79.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 8.4,
+              "ops_per_cycle": 0.0625
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 4.19,
+            "ops_per_cycle": 0.15625
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 32,
+              "bandwidth": 2100,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 16,
+              "bandwidth": 4200,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Boot ROM",
+              "capacity": 2,
+              "bandwidth": 1048
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024,
+              "bandwidth": 1048.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Neo Geo Pocket",
+    "brand": "SNK",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1998,
+        "launch_price": 69.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 6.14,
+              "ops_per_cycle": 0.25
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 6.14,
+            "ops_per_cycle": 0.25
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.072,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16,
+              "bandwidth": 3070,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 4,
+              "bandwidth": 3070,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 64,
+              "bandwidth": 3070
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024,
+              "bandwidth": 3070
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Genesis Nomad",
+    "brand": "Sega",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1995,
+        "launch_price": 180.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 7.67,
+              "ops_per_cycle": 0.125
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 6.71,
+            "ops_per_cycle": 0.4375
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 3.58,
+            "ops_per_cycle": 0.0525
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 3835,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 64.0,
+              "bandwidth": 6710.0,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 8.0,
+              "bandwidth": 1193.3,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024.0,
+              "bandwidth": 3835
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Sega Dreamcast",
+    "brand": "Sega",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1998,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 200,
+              "ops_per_cycle": 7
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 100,
+            "ops_per_cycle": 2.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 45.16,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16,
+              "bandwidth": 800,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 8,
+              "bandwidth": 800,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 2,
+              "bandwidth": 135.4,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "GD-ROM Buffer",
+              "capacity": 0.128,
+              "bandwidth": 1.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "GD-ROM",
+              "capacity": 1000,
+              "bandwidth": 1.8,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "System ROM",
+              "capacity": 2,
+              "bandwidth": 100
+            },
+            {
+              "name": "Internal Flash",
+              "capacity": 0.128,
+              "bandwidth": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo GameCube",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2001,
+        "launch_price": 199.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 485,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 162,
+            "ops_per_cycle": 14.5
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 81,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 24,
+              "bandwidth": 2600,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Embedded framebuffer",
+              "capacity": 2,
+              "bandwidth": 7800,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Texture cache",
+              "capacity": 1,
+              "bandwidth": 10400,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Audio RAM",
+              "capacity": 16,
+              "bandwidth": 81,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Game Disc",
+              "capacity": 1500,
+              "bandwidth": 3.125
+            },
+            {
+              "name": "Memory Card 59",
+              "capacity": 0.5,
+              "bandwidth": 3.375
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Xbox",
+    "brand": "Microsoft",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2001,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 733.3,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 233,
+            "ops_per_cycle": 14.9
+          },
+          "audio": {
+            "cores": 2,
+            "speed": 160,
+            "ops_per_cycle": 1.5
+          },
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 64,
+              "bandwidth": 6400,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "APU local memory",
+              "capacity": 0.053,
+              "bandwidth": 480,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal hard drive",
+              "capacity": 8000,
+              "bandwidth": 20
+            },
+            {
+              "name": "DVD-ROM",
+              "capacity": 4700,
+              "bandwidth": 6.25
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Game Boy Advance",
+    "brand": "Nintendo",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2001,
+        "launch_price": 99.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 16.78,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 16.78,
+            "ops_per_cycle": 0.75
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Internal Work RAM",
+              "capacity": 32,
+              "bandwidth": 67120,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "External Work RAM",
+              "capacity": 256,
+              "bandwidth": 11190,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 96,
+              "bandwidth": 33560,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Palette RAM",
+              "capacity": 1,
+              "bandwidth": 33560,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "OAM",
+              "capacity": 1,
+              "bandwidth": 33560,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "BIOS ROM",
+              "capacity": 16,
+              "bandwidth": 67120
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 8192,
+              "bandwidth": 16780
+            },
+            {
+              "name": "Cartridge Save Memory",
+              "capacity": 64,
+              "bandwidth": 2100
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "WonderSwan",
+    "brand": "Bandai",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 1999,
+        "launch_price": 99.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "KB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 3.072,
+              "ops_per_cycle": 0.5
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 3.072,
+            "ops_per_cycle": 0.25
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16,
+              "bandwidth": 6144,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Boot ROM",
+              "capacity": 4,
+              "bandwidth": 6144
+            },
+            {
+              "name": "Cartridge ROM",
+              "capacity": 1024,
+              "bandwidth": 6144
+            },
+            {
+              "name": "Cartridge SRAM",
+              "capacity": 32,
+              "bandwidth": 3072
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "N-Gage",
+    "brand": "Nokia",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2003,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 104,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": null,
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 16,
+              "bandwidth": 104,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Framebuffer SRAM",
+              "capacity": 0.192,
+              "bandwidth": 416,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Firmware ROM",
+              "capacity": 16,
+              "bandwidth": 13
+            },
+            {
+              "name": "Internal Flash Storage",
+              "capacity": 4,
+              "bandwidth": 2
+            },
+            {
+              "name": "MMC Game Card",
+              "capacity": 32,
+              "bandwidth": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo Wii",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2006,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 729,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 243,
+            "ops_per_cycle": 14.5
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 121.5,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "MEM1",
+              "capacity": 24,
+              "bandwidth": 3888,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "MEM2",
+              "capacity": 64,
+              "bandwidth": 4000,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Embedded framebuffer",
+              "capacity": 2,
+              "bandwidth": 11700,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Texture cache",
+              "capacity": 1,
+              "bandwidth": 15600,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "DSP internal RAM",
+              "capacity": 0.015625,
+              "bandwidth": 243,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NAND",
+              "capacity": 512,
+              "bandwidth": 7.5
+            },
+            {
+              "name": "Wii Game Disc",
+              "capacity": 4700,
+              "bandwidth": 4.6
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Xbox 360",
+    "brand": "Microsoft",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "20 GB",
+        "release_year": 2005,
+        "launch_price": 399.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 3,
+              "speed": 3200,
+              "ops_per_cycle": 12
+            }
+          ],
+          "gpu": {
+            "cores": 3,
+            "speed": 500,
+            "ops_per_cycle": 160.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 512,
+              "bandwidth": 22400,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Framebuffer eDRAM",
+              "capacity": 10,
+              "bandwidth": 256000,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 20000,
+              "bandwidth": 40
+            },
+            {
+              "name": "DVD Game Disc",
+              "capacity": 8500,
+              "bandwidth": 16.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo DS",
+    "brand": "Nintendo",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2004,
+        "launch_price": 149.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 67,
+              "ops_per_cycle": 2
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 33.514,
+            "ops_per_cycle": 5.33
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 33,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "Main RAM",
+              "capacity": 4,
+              "bandwidth": 134,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "ARM9 Tightly Coupled RAM",
+              "capacity": 0.048,
+              "bandwidth": 268,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "ARM7 Work RAM",
+              "capacity": 0.064,
+              "bandwidth": 134,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Shared Work RAM",
+              "capacity": 0.032,
+              "bandwidth": 67,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 0.656,
+              "bandwidth": 134,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Firmware Flash",
+              "capacity": 0.256,
+              "bandwidth": 0.5
+            },
+            {
+              "name": "Game Card",
+              "capacity": 64,
+              "bandwidth": 5.96
+            },
+            {
+              "name": "Game Card Save Memory",
+              "capacity": 0.064,
+              "bandwidth": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "DSi",
+        "release_year": 2008,
+        "launch_price": 169.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 133,
+              "ops_per_cycle": 2
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 33.514,
+            "ops_per_cycle": 5.33
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 33,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "Main RAM",
+              "capacity": 16,
+              "bandwidth": 266,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "ARM9 Tightly Coupled RAM",
+              "capacity": 0.048,
+              "bandwidth": 532,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "ARM7 Work RAM",
+              "capacity": 0.064,
+              "bandwidth": 134,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Shared Work RAM",
+              "capacity": 0.032,
+              "bandwidth": 67,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 0.656,
+              "bandwidth": 134,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NAND",
+              "capacity": 256,
+              "bandwidth": 2
+            },
+            {
+              "name": "Game Card",
+              "capacity": 64,
+              "bandwidth": 5.96
+            },
+            {
+              "name": "Game Card Save Memory",
+              "capacity": 0.064,
+              "bandwidth": 0.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation Portable",
+    "brand": "Sony",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2004,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 333,
+              "ops_per_cycle": 8
+            },
+            {
+              "cores": 1,
+              "speed": 333,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 166.0,
+            "ops_per_cycle": 4.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 166.0,
+            "ops_per_cycle": 22.5
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 32,
+              "bandwidth": 2660,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video eDRAM",
+              "capacity": 2,
+              "bandwidth": 5300,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Media Engine eDRAM",
+              "capacity": 2,
+              "bandwidth": 2660,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NAND",
+              "capacity": 32,
+              "bandwidth": 5
+            },
+            {
+              "name": "UMD",
+              "capacity": 1800,
+              "bandwidth": 1.375
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "PSP-2000",
+        "release_year": 2007,
+        "launch_price": 169.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 1,
+              "speed": 333,
+              "ops_per_cycle": 8
+            },
+            {
+              "cores": 1,
+              "speed": 333,
+              "ops_per_cycle": 1
+            }
+          ],
+          "gpu": {
+            "cores": 1,
+            "speed": 166.0,
+            "ops_per_cycle": 4.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 166.0,
+            "ops_per_cycle": 22.5
+          },
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 64,
+              "bandwidth": 2660,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video eDRAM",
+              "capacity": 2,
+              "bandwidth": 5300,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "Media Engine eDRAM",
+              "capacity": 2,
+              "bandwidth": 2660,
+              "accessible_by": [
+                "audio"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NAND",
+              "capacity": 64,
+              "bandwidth": 5
+            },
+            {
+              "name": "UMD",
+              "capacity": 1800,
+              "bandwidth": 1.375
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Wii U",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2012,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 3,
+              "speed": 1240,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 550,
+            "ops_per_cycle": 160
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 2,
+              "bandwidth": 12.8,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "GPU eDRAM",
+              "capacity": 0.032,
+              "bandwidth": 70.4,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 8,
+              "bandwidth": 0.044
+            },
+            {
+              "name": "Wii U Game Disc",
+              "capacity": 25,
+              "bandwidth": 0.0225
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Switch",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2017,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 4,
+              "speed": 1020,
+              "ops_per_cycle": 8
+            }
+          ],
+          "gpu": {
+            "cores": 2,
+            "speed": 768,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 4,
+              "bandwidth": 25.6,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 32,
+              "bandwidth": 0.28
+            },
+            {
+              "name": "Switch Game Card",
+              "capacity": 16,
+              "bandwidth": 0.1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Xbox One",
+    "brand": "Microsoft",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2013,
+        "launch_price": 499.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 1750,
+              "ops_per_cycle": 8
+            }
+          ],
+          "gpu": {
+            "cores": 12,
+            "speed": 853,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 8,
+              "bandwidth": 68.3,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "GPU eSRAM",
+              "capacity": 0.032,
+              "bandwidth": 204,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 500,
+              "bandwidth": 0.1
+            },
+            {
+              "name": "Blu-ray Game Disc",
+              "capacity": 50,
+              "bandwidth": 0.027
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "One S",
+        "release_year": 2016,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 1750,
+              "ops_per_cycle": 8
+            }
+          ],
+          "gpu": {
+            "cores": 12,
+            "speed": 914,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 8,
+              "bandwidth": 68.3,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "GPU eSRAM",
+              "capacity": 0.032,
+              "bandwidth": 218,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 500,
+              "bandwidth": 0.1
+            },
+            {
+              "name": "Blu-ray Game Disc",
+              "capacity": 50,
+              "bandwidth": 0.027
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "One X",
+        "release_year": 2017,
+        "launch_price": 499.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 2300,
+              "ops_per_cycle": 8
+            }
+          ],
+          "gpu": {
+            "cores": 40,
+            "speed": 1172,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified system RAM",
+              "capacity": 12,
+              "bandwidth": 326.4,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal storage",
+              "capacity": 1000,
+              "bandwidth": 0.1
+            },
+            {
+              "name": "Blu-ray Game Disc",
+              "capacity": 50,
+              "bandwidth": 0.027
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Nintendo 3DS",
+    "brand": "Nintendo",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2011,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 2,
+              "speed": 268,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 268.0,
+            "ops_per_cycle": 6.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 134,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "FCRAM",
+              "capacity": 128,
+              "bandwidth": 3200,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 6,
+              "bandwidth": 4000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "DSP RAM",
+              "capacity": 0.5,
+              "bandwidth": 536,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "AXI Work RAM",
+              "capacity": 0.5,
+              "bandwidth": 1072,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal eMMC",
+              "capacity": 2000,
+              "bandwidth": 8
+            },
+            {
+              "name": "Included SD Card",
+              "capacity": 2000,
+              "bandwidth": 4
+            },
+            {
+              "name": "Game Card",
+              "capacity": 1000,
+              "bandwidth": 8
+            },
+            {
+              "name": "Game Card Save Memory",
+              "capacity": 1,
+              "bandwidth": 1
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "New",
+        "release_year": 2014,
+        "launch_price": 219.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 4,
+              "speed": 804,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 268.0,
+            "ops_per_cycle": 6.0
+          },
+          "audio": {
+            "cores": 1,
+            "speed": 134,
+            "ops_per_cycle": 1
+          },
+          "memory": [
+            {
+              "name": "FCRAM",
+              "capacity": 256,
+              "bandwidth": 6400,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 10,
+              "bandwidth": 4000,
+              "accessible_by": [
+                "gpu"
+              ]
+            },
+            {
+              "name": "DSP RAM",
+              "capacity": 0.5,
+              "bandwidth": 536,
+              "accessible_by": [
+                "audio"
+              ]
+            },
+            {
+              "name": "L2 Cache",
+              "capacity": 2,
+              "bandwidth": 12800,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "AXI Work RAM",
+              "capacity": 0.5,
+              "bandwidth": 1072,
+              "accessible_by": [
+                "cpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal eMMC",
+              "capacity": 1300,
+              "bandwidth": 8
+            },
+            {
+              "name": "Included microSD Card",
+              "capacity": 4000,
+              "bandwidth": 4
+            },
+            {
+              "name": "Game Card",
+              "capacity": 1000,
+              "bandwidth": 8
+            },
+            {
+              "name": "Game Card Save Memory",
+              "capacity": 1,
+              "bandwidth": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "PlayStation Vita",
+    "brand": "Sony",
+    "category": "handheld console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2011,
+        "launch_price": 249.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "MB",
+          "cpus": [
+            {
+              "cores": 4,
+              "speed": 444,
+              "ops_per_cycle": 4
+            }
+          ],
+          "gpu": {
+            "cores": 4,
+            "speed": 200.0,
+            "ops_per_cycle": 36.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "System RAM",
+              "capacity": 512,
+              "bandwidth": 6400,
+              "accessible_by": [
+                "cpu"
+              ]
+            },
+            {
+              "name": "Video RAM",
+              "capacity": 128,
+              "bandwidth": 3200,
+              "accessible_by": [
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "PS Vita Game Card",
+              "capacity": 4000,
+              "bandwidth": 10
+            },
+            {
+              "name": "PS Vita Memory Card",
+              "capacity": 4000,
+              "bandwidth": 10
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Xbox Series X/S",
+    "brand": "Microsoft",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Series S",
+        "release_year": 2020,
+        "launch_price": 299.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 3600,
+              "ops_per_cycle": 32
+            }
+          ],
+          "gpu": {
+            "cores": 20,
+            "speed": 1565,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Fast unified GDDR6",
+              "capacity": 8,
+              "bandwidth": 224,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Slow unified GDDR6",
+              "capacity": 2,
+              "bandwidth": 56,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NVMe storage",
+              "capacity": 500,
+              "bandwidth": 2.4
+            }
+          ]
+        }
+      },
+      {
+        "variant_name": "Series X",
+        "release_year": 2020,
+        "launch_price": 499.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 3800,
+              "ops_per_cycle": 32
+            }
+          ],
+          "gpu": {
+            "cores": 52,
+            "speed": 1825,
+            "ops_per_cycle": 128.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Fast unified GDDR6",
+              "capacity": 10,
+              "bandwidth": 560,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            },
+            {
+              "name": "Slow unified GDDR6",
+              "capacity": 6,
+              "bandwidth": 336,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal NVMe storage",
+              "capacity": 1000,
+              "bandwidth": 2.4
+            },
+            {
+              "name": "Ultra HD Blu-ray disc",
+              "capacity": 100,
+              "bandwidth": 0.054
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "main_name": "Switch 2",
+    "brand": "Nintendo",
+    "category": "console",
+    "variants": [
+      {
+        "variant_name": "Base",
+        "release_year": 2025,
+        "launch_price": 449.0,
+        "specs": {
+          "speed_unit": "MHz",
+          "memory_unit": "GB",
+          "cpus": [
+            {
+              "cores": 8,
+              "speed": 998,
+              "ops_per_cycle": 16
+            }
+          ],
+          "gpu": {
+            "cores": 12,
+            "speed": 1007,
+            "ops_per_cycle": 256.0
+          },
+          "audio": null,
+          "memory": [
+            {
+              "name": "Unified LPDDR5X",
+              "capacity": 12,
+              "bandwidth": 102.4,
+              "accessible_by": [
+                "cpu",
+                "gpu"
+              ]
+            }
+          ],
+          "storage": [
+            {
+              "name": "Internal UFS storage",
+              "capacity": 256,
+              "bandwidth": 2.1
+            },
+            {
+              "name": "Nintendo Switch 2 game card",
+              "capacity": 64,
+              "bandwidth": 0.22
+            }
+          ]
         }
       }
     ]

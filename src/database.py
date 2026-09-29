@@ -1,12 +1,44 @@
 import sqlite3
 
 from src.product import (
+    AudioSpec,
     CpuSpec,
     GpuSpec,
+    MemorySpec,
     Product,
     ProductSpecs,
     ProductVariant,
+    StorageSpec,
 )
+
+
+def _find_product_id_in_connection(
+    conn: sqlite3.Connection,
+    product_name: str,
+) -> int | None:
+    """Return an exact match, or a single unambiguous name fragment match."""
+    normalized_name = product_name.strip()
+    exact_match = conn.execute(
+        """
+        SELECT id
+        FROM tech_products
+        WHERE main_name = ? COLLATE NOCASE
+        """,
+        (normalized_name,),
+    ).fetchone()
+    if exact_match is not None:
+        return exact_match[0]
+
+    matches = conn.execute(
+        """
+        SELECT id
+        FROM tech_products
+        WHERE main_name LIKE ? COLLATE NOCASE
+        """,
+        (f"%{normalized_name}%",),
+    ).fetchall()
+    return matches[0][0] if len(matches) == 1 else None
+
 
 def find_product(product_name: str, db_file: str) -> Product | None:
     """Return a stored product as a validated Product object."""
@@ -15,17 +47,18 @@ def find_product(product_name: str, db_file: str) -> Product | None:
     conn.execute("PRAGMA foreign_keys = ON;")
 
     try:
+        product_id = _find_product_id_in_connection(conn, product_name)
+        if product_id is None:
+            return None
+
         product_row = conn.execute(
             """
             SELECT id, main_name, brand, category
             FROM tech_products
-            WHERE main_name = ? COLLATE NOCASE
+            WHERE id = ?
             """,
-            (product_name.strip(),),
+            (product_id,),
         ).fetchone()
-
-        if product_row is None:
-            return None
 
         variants: list[ProductVariant] = []
 
@@ -41,14 +74,9 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                 gpu_cores,
                 gpu_speed,
                 gpu_ops_per_cycle,
-                gpu_memory_bandwidth,
-                gpu_memory,
-                ram,
-                ram_bandwidth,
-                audio_memory,
-                video_memory,
-                storage_gb,
-                storage_speed
+                audio_cores,
+                audio_speed,
+                audio_ops_per_cycle
             FROM tech_variants
             WHERE product_id = ?
             ORDER BY id
@@ -67,13 +95,59 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                 (variant_row["id"],),
             ).fetchall()
 
+            memory_rows = conn.execute(
+                """
+                SELECT id, name, capacity, bandwidth
+                FROM tech_variant_memory_sources
+                WHERE variant_id = ?
+                ORDER BY position
+                """,
+                (variant_row["id"],),
+            ).fetchall()
+
+            memory = []
+            for memory_row in memory_rows:
+                access_rows = conn.execute(
+                    """
+                    SELECT accessor
+                    FROM tech_variant_memory_access
+                    WHERE memory_source_id = ?
+                    ORDER BY position
+                    """,
+                    (memory_row["id"],),
+                ).fetchall()
+                memory.append(
+                    MemorySpec(
+                        name=memory_row["name"],
+                        capacity=memory_row["capacity"],
+                        bandwidth=memory_row["bandwidth"],
+                        accessible_by=[row["accessor"] for row in access_rows],
+                    )
+                )
+
+            storage_rows = conn.execute(
+                """
+                SELECT name, capacity, bandwidth
+                FROM tech_variant_storage_sources
+                WHERE variant_id = ?
+                ORDER BY position
+                """,
+                (variant_row["id"],),
+            ).fetchall()
+            storage = [
+                StorageSpec(
+                    name=row["name"],
+                    capacity=row["capacity"],
+                    bandwidth=row["bandwidth"],
+                )
+                for row in storage_rows
+            ]
+
             gpu = (
                 GpuSpec(
                     cores=variant_row["gpu_cores"],
                     speed=variant_row["gpu_speed"],
                     ops_per_cycle=variant_row["gpu_ops_per_cycle"],
-                    memory_bandwidth=variant_row["gpu_memory_bandwidth"],
-                    memory=variant_row["gpu_memory"],
                 )
                 if any(
                     variant_row[field] is not None
@@ -81,8 +155,23 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                         "gpu_cores",
                         "gpu_speed",
                         "gpu_ops_per_cycle",
-                        "gpu_memory_bandwidth",
-                        "gpu_memory",
+                    )
+                )
+                else None
+            )
+
+            audio = (
+                AudioSpec(
+                    cores=variant_row["audio_cores"],
+                    speed=variant_row["audio_speed"],
+                    ops_per_cycle=variant_row["audio_ops_per_cycle"],
+                )
+                if any(
+                    variant_row[field] is not None
+                    for field in (
+                        "audio_cores",
+                        "audio_speed",
+                        "audio_ops_per_cycle",
                     )
                 )
                 else None
@@ -105,12 +194,9 @@ def find_product(product_name: str, db_file: str) -> Product | None:
                             for row in cpu_rows
                         ],
                         gpu=gpu,
-                        ram=variant_row["ram"],
-                        ram_bandwidth=variant_row["ram_bandwidth"],
-                        audio_memory=variant_row["audio_memory"],
-                        video_memory=variant_row["video_memory"],
-                        storage_gb=variant_row["storage_gb"],
-                        storage_speed=variant_row["storage_speed"],
+                        audio=audio,
+                        memory=memory,
+                        storage=storage,
                     ),
                 )
             )
@@ -128,15 +214,7 @@ def find_product_id(product_name: str, db_file: str) -> int | None:
     """Return the database ID for a product, if it exists."""
     conn = sqlite3.connect(db_file)
     try:
-        row = conn.execute(
-            """
-            SELECT id
-            FROM tech_products
-            WHERE main_name = ? COLLATE NOCASE
-            """,
-            (product_name.strip(),),
-        ).fetchone()
-        return row[0] if row is not None else None
+        return _find_product_id_in_connection(conn, product_name)
     finally:
         conn.close()
 
@@ -167,14 +245,9 @@ def init_agent_database(db_file: str) -> None:
             gpu_cores INTEGER,
             gpu_speed REAL,
             gpu_ops_per_cycle REAL,
-            gpu_memory_bandwidth REAL,
-            gpu_memory REAL,
-            ram REAL,
-            ram_bandwidth REAL,
-            audio_memory REAL,
-            video_memory REAL,
-            storage_gb REAL,
-            storage_speed REAL,
+            audio_cores INTEGER,
+            audio_speed REAL,
+            audio_ops_per_cycle REAL,
             UNIQUE(product_id, variant_name),
             FOREIGN KEY (product_id)
                 REFERENCES tech_products(id)
@@ -190,6 +263,50 @@ def init_agent_database(db_file: str) -> None:
             cores INTEGER,
             speed REAL,
             cpu_ops_per_cycle REAL,
+            UNIQUE(variant_id, position),
+            FOREIGN KEY (variant_id)
+                REFERENCES tech_variants(id)
+                ON DELETE CASCADE
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tech_variant_memory_sources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            variant_id INTEGER NOT NULL,
+            position INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            capacity REAL,
+            bandwidth REAL,
+            UNIQUE(variant_id, position),
+            FOREIGN KEY (variant_id)
+                REFERENCES tech_variants(id)
+                ON DELETE CASCADE
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tech_variant_memory_access (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            memory_source_id INTEGER NOT NULL,
+            position INTEGER NOT NULL,
+            accessor TEXT NOT NULL CHECK (accessor IN ('cpu', 'gpu', 'audio')),
+            UNIQUE(memory_source_id, position),
+            UNIQUE(memory_source_id, accessor),
+            FOREIGN KEY (memory_source_id)
+                REFERENCES tech_variant_memory_sources(id)
+                ON DELETE CASCADE
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tech_variant_storage_sources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            variant_id INTEGER NOT NULL,
+            position INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            capacity REAL NOT NULL,
+            bandwidth REAL NOT NULL,
             UNIQUE(variant_id, position),
             FOREIGN KEY (variant_id)
                 REFERENCES tech_variants(id)
@@ -267,6 +384,7 @@ def save_research_results(
 
                     specs = variant.specs
                     gpu = specs.gpu
+                    audio = specs.audio
                     values = (
                         variant.variant_name,
                         variant.release_year,
@@ -276,14 +394,9 @@ def save_research_results(
                         gpu.cores if gpu else None,
                         gpu.speed if gpu else None,
                         gpu.ops_per_cycle if gpu else None,
-                        gpu.memory_bandwidth if gpu else None,
-                        gpu.memory if gpu else None,
-                        specs.ram,
-                        specs.ram_bandwidth,
-                        specs.audio_memory,
-                        specs.video_memory,
-                        specs.storage_gb,
-                        specs.storage_speed,
+                        audio.cores if audio else None,
+                        audio.speed if audio else None,
+                        audio.ops_per_cycle if audio else None,
                     )
 
                     if row is None:
@@ -299,16 +412,11 @@ def save_research_results(
                                 gpu_cores,
                                 gpu_speed,
                                 gpu_ops_per_cycle,
-                                gpu_memory_bandwidth,
-                                gpu_memory,
-                                ram,
-                                ram_bandwidth,
-                                audio_memory,
-                                video_memory,
-                                storage_gb,
-                                storage_speed
+                                audio_cores,
+                                audio_speed,
+                                audio_ops_per_cycle
                             )
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             """,
                             (product_id, *values),
                         )
@@ -327,14 +435,9 @@ def save_research_results(
                                 gpu_cores = ?,
                                 gpu_speed = ?,
                                 gpu_ops_per_cycle = ?,
-                                gpu_memory_bandwidth = ?,
-                                gpu_memory = ?,
-                                ram = ?,
-                                ram_bandwidth = ?,
-                                audio_memory = ?,
-                                video_memory = ?,
-                                storage_gb = ?,
-                                storage_speed = ?
+                                audio_cores = ?,
+                                audio_speed = ?,
+                                audio_ops_per_cycle = ?
                             WHERE id = ?
                             """,
                             (*values, variant_id),
@@ -365,6 +468,75 @@ def save_research_results(
                                 cpu.ops_per_cycle,
                             )
                             for position, cpu in enumerate(specs.cpus)
+                        ],
+                    )
+
+                    conn.execute(
+                        "DELETE FROM tech_variant_memory_sources WHERE variant_id = ?",
+                        (variant_id,),
+                    )
+                    for position, memory_source in enumerate(specs.memory):
+                        cursor = conn.execute(
+                            """
+                            INSERT INTO tech_variant_memory_sources (
+                                variant_id,
+                                position,
+                                name,
+                                capacity,
+                                bandwidth
+                            )
+                            VALUES (?, ?, ?, ?, ?)
+                            """,
+                            (
+                                variant_id,
+                                position,
+                                memory_source.name,
+                                memory_source.capacity,
+                                memory_source.bandwidth,
+                            ),
+                        )
+                        memory_source_id = cursor.lastrowid
+                        conn.executemany(
+                            """
+                            INSERT INTO tech_variant_memory_access (
+                                memory_source_id,
+                                position,
+                                accessor
+                            )
+                            VALUES (?, ?, ?)
+                            """,
+                            [
+                                (memory_source_id, access_position, accessor)
+                                for access_position, accessor in enumerate(
+                                    memory_source.accessible_by
+                                )
+                            ],
+                        )
+
+                    conn.execute(
+                        "DELETE FROM tech_variant_storage_sources WHERE variant_id = ?",
+                        (variant_id,),
+                    )
+                    conn.executemany(
+                        """
+                        INSERT INTO tech_variant_storage_sources (
+                            variant_id,
+                            position,
+                            name,
+                            capacity,
+                            bandwidth
+                        )
+                        VALUES (?, ?, ?, ?, ?)
+                        """,
+                        [
+                            (
+                                variant_id,
+                                position,
+                                storage_source.name,
+                                storage_source.capacity,
+                                storage_source.bandwidth,
+                            )
+                            for position, storage_source in enumerate(specs.storage)
                         ],
                     )
 

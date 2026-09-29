@@ -21,8 +21,6 @@ class GpuSpec:
     cores: int | None
     speed: float | None
     ops_per_cycle: float | None
-    memory_bandwidth: float | None
-    memory: float | None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> GpuSpec:
@@ -30,8 +28,106 @@ class GpuSpec:
             cores=data.get("cores"),
             speed=data.get("speed"),
             ops_per_cycle=data.get("ops_per_cycle"),
-            memory_bandwidth=data.get("memory_bandwidth"),
-            memory=data.get("memory"),
+        )
+
+
+@dataclass(slots=True)
+class AudioSpec:
+    cores: int | None
+    speed: float | None
+    ops_per_cycle: float | None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> AudioSpec:
+        return cls(
+            cores=data.get("cores"),
+            speed=data.get("speed"),
+            ops_per_cycle=data.get("ops_per_cycle"),
+        )
+
+
+@dataclass(slots=True)
+class MemorySpec:
+    name: str
+    capacity: float | None
+    bandwidth: float | None
+    accessible_by: list[str]
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> MemorySpec:
+        expected_fields = {"name", "capacity", "bandwidth", "accessible_by"}
+        if set(data) != expected_fields:
+            raise ValueError(
+                "Every memory source must contain exactly: "
+                "'name', 'capacity', 'bandwidth', and 'accessible_by'."
+            )
+
+        name = data.get("name")
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError("'memory.name' must be a non-empty string.")
+
+        for field_name in ("capacity", "bandwidth"):
+            value = data.get(field_name)
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or value <= 0
+            ):
+                raise ValueError(f"'memory.{field_name}' must be a positive number.")
+
+        accessible_by = data["accessible_by"]
+        if not isinstance(accessible_by, list) or not all(
+            isinstance(value, str) for value in accessible_by
+        ):
+            raise ValueError("'memory.accessible_by' must be an array of strings.")
+        allowed_accessors = {"cpu", "gpu", "audio"}
+        if any(value not in allowed_accessors for value in accessible_by):
+            raise ValueError(
+                "'memory.accessible_by' entries must be 'cpu', 'gpu', or 'audio'."
+            )
+        if len(accessible_by) != len(set(accessible_by)):
+            raise ValueError("'memory.accessible_by' cannot contain duplicates.")
+
+        return cls(
+            name=name.strip(),
+            capacity=data["capacity"],
+            bandwidth=data["bandwidth"],
+            accessible_by=accessible_by,
+        )
+
+
+@dataclass(slots=True)
+class StorageSpec:
+    name: str
+    capacity: float
+    bandwidth: float
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> StorageSpec:
+        expected_fields = {"name", "capacity", "bandwidth"}
+        if set(data) != expected_fields:
+            raise ValueError(
+                "Every storage source must contain exactly: "
+                "'name', 'capacity', and 'bandwidth'."
+            )
+
+        name = data.get("name")
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError("'storage.name' must be a non-empty string.")
+
+        for field_name in ("capacity", "bandwidth"):
+            value = data.get(field_name)
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or value <= 0
+            ):
+                raise ValueError(f"'storage.{field_name}' must be a positive number.")
+
+        return cls(
+            name=name.strip(),
+            capacity=float(data["capacity"]),
+            bandwidth=float(data["bandwidth"]),
         )
 
 
@@ -41,12 +137,9 @@ class ProductSpecs:
     memory_unit: str | None
     cpus: list[CpuSpec]
     gpu: GpuSpec | None
-    ram: float | None
-    ram_bandwidth: float | None
-    audio_memory: float | None
-    video_memory: float | None
-    storage_gb: float | None
-    storage_speed: float | None
+    audio: AudioSpec | None
+    memory: list[MemorySpec]
+    storage: list[StorageSpec]
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> ProductSpecs:
@@ -58,6 +151,24 @@ class ProductSpecs:
         if gpu_data is not None and not isinstance(gpu_data, dict):
             raise ValueError("'specs.gpu' must be an object or null.")
 
+        audio_data = data.get("audio")
+        if audio_data is not None and not isinstance(audio_data, dict):
+            raise ValueError("'specs.audio' must be an object or null.")
+
+        memory_data = data.get("memory", [])
+        if not isinstance(memory_data, list):
+            raise ValueError("'specs.memory' must be an array.")
+
+        if not all(isinstance(memory, dict) for memory in memory_data):
+            raise ValueError("Every memory source must be an object.")
+
+        storage_data = data.get("storage", [])
+        if not isinstance(storage_data, list):
+            raise ValueError("'specs.storage' must be an array.")
+
+        if not all(isinstance(storage, dict) for storage in storage_data):
+            raise ValueError("Every storage source must be an object.")
+
         return cls(
             speed_unit=data.get("speed_unit"),
             memory_unit=data.get("memory_unit"),
@@ -67,12 +178,13 @@ class ProductSpecs:
                 if isinstance(cpu, dict)
             ],
             gpu=GpuSpec.from_dict(gpu_data) if gpu_data is not None else None,
-            ram=data.get("ram"),
-            ram_bandwidth=data.get("ram_bandwidth"),
-            audio_memory=data.get("audio_memory"),
-            video_memory=data.get("video_memory"),
-            storage_gb=data.get("storage_gb"),
-            storage_speed=data.get("storage_speed"),
+            audio=(
+                AudioSpec.from_dict(audio_data)
+                if audio_data is not None
+                else None
+            ),
+            memory=[MemorySpec.from_dict(memory) for memory in memory_data],
+            storage=[StorageSpec.from_dict(storage) for storage in storage_data],
         )
 
 
